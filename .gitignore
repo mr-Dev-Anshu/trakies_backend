@@ -1,0 +1,30 @@
+# Node.js specific files/folders
+node_modules/
+.env
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Logs
+logs
+*.log
+logs/*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Coverage directories
+coverage/
+
+# Build directories
+dist/
+build/
+
+# Other files
+*.swp
+*.swo
