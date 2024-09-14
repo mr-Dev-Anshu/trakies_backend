@@ -7,4 +7,7 @@ dotenv.config({
   path: "./.env",
 });
 app.use("/api/users", userRouter);
+app.use("/" , (req,res)=> {
+     res.json({success:true})
+})
 export { app };
