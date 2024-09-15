@@ -7,15 +7,12 @@ export const signup = async (req, res) => {
     if (body?.email === null || body?.role === null) {
       throw new ApiError(400, "All Fields are  reqired for Signup");
     }
-    
     const { email, role } = body;
-
     const isRegistered = await User.findOne({ email });
     if (isRegistered) {
       throw new ApiError(405, "Already Registered");
     }
     const user = await User.create({ email, role });
-
     res.status(200).json({
       status: 200,
       message: "User have been add with the role",
@@ -24,7 +21,6 @@ export const signup = async (req, res) => {
     res.status(error?.status || 500).json(error?.message);
   }
 };
-
 export const signin = async (req, res) => {
   try {
     const body = req.body;
@@ -45,4 +41,14 @@ export const signin = async (req, res) => {
 };
 export const logout = () => {
   console.log("Logout is processing");
+};
+
+export const makeProfile = async (req, res) => {
+  const data = req.body;
+  console.log(data);
+
+  res.json("working fine");
+};
+export const getProfile = async () => {
+  
 };

@@ -13,7 +13,7 @@ pids
 logs
 *.log
 logs/*.log
-
+todo.txt
 # OS files
 .DS_Store
 Thumbs.db
