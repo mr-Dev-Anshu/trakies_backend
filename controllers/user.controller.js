@@ -18,7 +18,7 @@ export const signup = async (req, res) => {
       message: "User have been add with the role",
     });
   } catch (error) {
-    res.status(error?.status || 500).json(error?.message);
+     return   res.status(error?.status || 500).json(error?.message);
   }
 };
 export const signin = async (req, res) => {
@@ -103,8 +103,7 @@ export const getUserProfileBy = async (req, res) => {
 // Update a user profile by ID
 export const updateUserProfile = async (req, res) => {
   const updates = req.body;
-  const {id} = req.body ; 
-
+  const { id } = req.body;
   try {
     const updatedProfile = await UserProfile.findByIdAndUpdate(id, updates, {
       new: true,
@@ -119,4 +118,3 @@ export const updateUserProfile = async (req, res) => {
       .json({ error: "Error updating profile", details: error.message });
   }
 };
-
