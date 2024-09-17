@@ -11,14 +11,20 @@ export const signup = async (req, res) => {
     const isRegistered = await User.findOne({ email });
     if (isRegistered) {
       throw new ApiError(405, "Already Registered");
+       
     }
     const user = await User.create({ email, role });
     res.status(200).json({
       status: 200,
       message: "User have been add with the role",
     });
+    
   } catch (error) {
-     return   res.status(error?.status || 500).json(error?.message);
+    res.status(error?.status || 500).json({
+        status:405, 
+        message:"Already Registered "
+    });
+
   }
 };
 export const signin = async (req, res) => {
