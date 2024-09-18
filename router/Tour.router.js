@@ -1,7 +1,8 @@
 import { Router } from "express";
-import { createTour, getAllTours, getTourById } from "../controllers/Tour";
+import { createTour, getAllTours, getTourById } from "../controllers/Tour.js";
+import { checkAdminRole } from "../middleware/checkAdminRole.js";
 const router = Router() ; 
-router.route("/create").post(createTour)
-router.route("/getAllTours").post(getAllTours) 
-router.route("getOneTour").post(getTourById) ; 
-export  {router}
+router.route("/create").post( checkAdminRole , createTour)
+router.route("/getAllTours").post(checkAdminRole , getAllTours) 
+router.route("getOneTour").post(checkAdminRole , getTourById) ; 
+export  default router ; 
