@@ -14,7 +14,9 @@ export const createTour = async (req, res) => {
 // Get all tours
 export const getAllTours = async (req, res) => {
   try {
-    const tours = await Tour.find();
+    const limit = parseInt(req.query.limit);
+
+    const tours = limit ? await Tour.find().limit(limit) : await Tour.find();
     res.status(200).json(tours);
   } catch (error) {
     res.status(500).json({ message: error.message });
