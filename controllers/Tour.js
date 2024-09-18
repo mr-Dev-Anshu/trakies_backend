@@ -20,15 +20,13 @@ export const getAllTours = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
-// Get a tour by ID
 export const getTourById = async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id } = req.query;
     if (!id) {
-      throw new Error("Please Provide id to get the Tour details ");
+      throw new Error("Please provide an id to get the tour details");
     }
-    const tour = await Tour.findById(req.body.id);
+    const tour = await Tour.findById(id);
     if (!tour) {
       return res.status(404).json({ message: "Tour not found" });
     }
