@@ -19,10 +19,9 @@ export const signup = async (req, res) => {
     });
   } catch (error) {
     res.status(error?.status || 500).json({
-        status:405, 
-        message:"Already Registered"
+      status: 405,
+      message: "Already Registered",
     });
-
   }
 };
 export const signin = async (req, res) => {
