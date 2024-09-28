@@ -59,9 +59,9 @@ export const createUserProfile = async (req, res) => {
     gender,
     contact,
     emergancy_contact,
-    identity_proof,
+    id_number,
     address,
-    profile_img,
+    id_type,
   } = req.body;
   if (!email) {
     return res.status(400).json({ error: "Email is required" });
@@ -74,9 +74,9 @@ export const createUserProfile = async (req, res) => {
       gender,
       contact,
       emergancy_contact,
-      identity_proof,
+      id_number,
       address,
-      profile_img,
+      id_type,
     });
     const savedProfile = await newUserProfile.save();
     res.status(201).json(savedProfile);

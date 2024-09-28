@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-
 const schema = mongoose.Schema({
   email: {
     type: String,
@@ -12,7 +11,7 @@ const schema = mongoose.Schema({
     type: String,
   },
   gender: {
-    type: String,
+    type: String, 
   },
   contact: {
     type: String,
@@ -20,14 +19,13 @@ const schema = mongoose.Schema({
   emergancy_contact: {
     type: String,
   },
-  identity_proof: {
+  id_number: {
     type: String,
   },
+  id_type:{
+     type:String 
+  } , 
   address: {
-    type: String,
-  },
-
-  profile_img: {
     type: String,
   },
 });
