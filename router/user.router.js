@@ -14,5 +14,5 @@ router.route("/signin").post(signin);
 router.route("/logout").post(logout);
 router.route("/createProfile").post(createUserProfile);
 router.route("/updateProfile").post(updateUserProfile);
-router.route("/getProfile").post(getUserProfileBy);
+router.route("/getProfile").get(getUserProfileBy);
 export default router;
