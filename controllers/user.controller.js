@@ -62,6 +62,7 @@ export const createUserProfile = async (req, res) => {
     id_number,
     address,
     id_type,
+    Ganesh 
   } = req.body;
   if (!email) {
     return res.status(400).json({ error: "Email is required" });
@@ -83,6 +84,7 @@ export const createUserProfile = async (req, res) => {
       id_number,
       address,
       id_type,
+      Ganesh
     });
     const savedProfile = await newUserProfile.save();
     res.status(201).json(savedProfile);

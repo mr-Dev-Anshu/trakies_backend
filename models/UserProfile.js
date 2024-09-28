@@ -11,7 +11,7 @@ const schema = mongoose.Schema({
     type: String,
   },
   gender: {
-    type: String, 
+    type: String,
   },
   contact: {
     type: String,
@@ -22,10 +22,13 @@ const schema = mongoose.Schema({
   id_number: {
     type: String,
   },
-  id_type:{
-     type:String 
-  } , 
+  id_type: {
+    type: String,
+  },
   address: {
+    type: String,
+  },
+  Ganesh: {
     type: String,
   },
 });
