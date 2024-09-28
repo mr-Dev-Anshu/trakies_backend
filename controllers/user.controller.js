@@ -66,6 +66,13 @@ export const createUserProfile = async (req, res) => {
   if (!email) {
     return res.status(400).json({ error: "Email is required" });
   }
+
+  const alreadyExits = await UserProfile.findOne({ email });
+  console.log("existing data ", alreadyExits);
+
+  if (alreadyExits) {
+    return res.status(400).json({ error: "Profile is already Exist " });
+  }
   try {
     const newUserProfile = new UserProfile({
       email,
@@ -89,9 +96,9 @@ export const createUserProfile = async (req, res) => {
 
 // Get a user profile by ID
 export const getUserProfileBy = async (req, res) => {
-  const { email } = req.headers.email;
+  const email = req.headers.email;
   try {
-    const userProfile = await UserProfile.findOne(email);
+    const userProfile = await UserProfile.findOne({ email });
     if (!userProfile) {
       return res.status(404).json({ error: "User profile not found" });
     }
