@@ -44,10 +44,11 @@ export const deletePost = async (req, res) => {
       .json({ message: "Server error. Please try again later." });
   }
 };
-
+ 
 export const getPosts = async (req, res) => {
   try {
-    const { userEmail } = req.body;
+    const userEmail = req.headers.useremail;
+    console.log(userEmail, req.headers);
     const posts = await Post.find({ userEmail });
     if (!posts || posts.length === 0) {
       return res.status(404).json({ message: "No posts found." });
