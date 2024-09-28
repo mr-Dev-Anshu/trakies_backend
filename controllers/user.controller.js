@@ -58,7 +58,7 @@ export const createUserProfile = async (req, res) => {
     age,
     gender,
     contact,
-    emergancy_contact,
+    emergency_contact,
     id_number,
     address,
     id_type,
@@ -66,7 +66,6 @@ export const createUserProfile = async (req, res) => {
   if (!email) {
     return res.status(400).json({ error: "Email is required" });
   }
-
   const alreadyExits = await UserProfile.findOne({ email });
   console.log("existing data ", alreadyExits);
 
@@ -80,7 +79,7 @@ export const createUserProfile = async (req, res) => {
       age,
       gender,
       contact,
-      emergancy_contact,
+      emergency_contact,
       id_number,
       address,
       id_type,

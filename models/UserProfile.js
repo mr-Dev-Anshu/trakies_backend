@@ -16,7 +16,7 @@ const schema = mongoose.Schema({
   contact: {
     type: String,
   },
-  emergancy_contact: {
+  emergency_contact: {
     type: String,
   },
   id_number: {
