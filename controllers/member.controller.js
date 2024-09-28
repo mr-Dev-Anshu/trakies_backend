@@ -26,7 +26,7 @@ export const addMember = async (req, res) => {
       relation,
       age,
       gender,
-      contact
+      contact,
     });
 
     await newMember.save();
