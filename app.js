@@ -6,7 +6,7 @@ import memberRouter from "./router/member.router.js";
 import postRouter from "./router/post.router.js";
 import imageRouter from "./router/image.router.js";
 import cors from "cors";
-import  TourRouter  from "./router/tour.router.js";
+// import  TourRouter  from "./router/tour.router.js";
 import TrackLeadRouter from "./router/trackLead.router.js"
 import ExpanseRouter from "./router/expanse.router.js"
 const app = express();
@@ -20,7 +20,7 @@ dotenv.config({
 });
 app.use(cors(corsOptions));
 app.use("/api/users", userRouter);
-app.use("/api/tour", TourRouter);
+// app.use("/api/tour", TourRouter);
 app.use("/api/member", memberRouter);
 app.post("/api/putObject", putObject);
 app.use("/api/Post", postRouter);
