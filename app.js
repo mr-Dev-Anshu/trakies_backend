@@ -9,6 +9,7 @@ import cors from "cors";
 // import  TourRouter  from "./router/tour.router.js";
 import TrackLeadRouter from "./router/trackLead.router.js"
 import ExpanseRouter from "./router/expanse.router.js"
+import TourRouter from "./router/tour.js"
 const app = express();
 app.use(express.json());
 const corsOptions = {
@@ -20,7 +21,7 @@ dotenv.config({
 });
 app.use(cors(corsOptions));
 app.use("/api/users", userRouter);
-// app.use("/api/tour", TourRouter);
+app.use("/api/tour", TourRouter);
 app.use("/api/member", memberRouter);
 app.post("/api/putObject", putObject);
 app.use("/api/Post", postRouter);
