@@ -1,11 +1,11 @@
 import { Image } from "../models/Image.js";
 export const createImage = async (req, res) => {
   try {
-    const { id, url } = req.body;
+    const { id, url , type  } = req.body;
     if (!id || !url) {
       return res.status(400).json({ message: "Please provide Id and Url" });
     }
-    const newImage = new Image({ id, url });
+    const newImage = new Image({ id, url , type });
     await newImage.save();
     return res.status(201).json({ message: "Image Created Successfully" });
   } catch (error) {

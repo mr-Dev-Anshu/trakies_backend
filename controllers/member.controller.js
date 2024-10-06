@@ -41,8 +41,8 @@ export const addMember = async (req, res) => {
 
 export const getMembers = async (req, res) => {
   try {
-   const  userEmail = req.headers.useremail ; 
-   console.log("header------" , userEmail ) ; 
+   const  userEmail =  req.query.email  ; 
+   console.log("Query------" , userEmail ) ; 
     if (!userEmail) {
       return res
         .status(400)

@@ -9,6 +9,9 @@ const schema = mongoose.Schema({
     type: String,
     required: true,
   },
+  type: {
+    type: String,
+  },
 });
 
-export const Image = mongoose.model("Image" , schema) ; 
+export const Image = mongoose.model("Image", schema);

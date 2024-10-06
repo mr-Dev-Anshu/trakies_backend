@@ -3,6 +3,6 @@ import { addMember, getMembers } from "../controllers/member.controller.js";
 
 const router = Router()  ; 
 
-router.route('/add').post(addMember) ; 
-router.route('/get').get(getMembers) ; 
+router.route('/add-member').post(addMember) ; 
+router.route('/get-member').get(getMembers) ; 
 export default router ; 

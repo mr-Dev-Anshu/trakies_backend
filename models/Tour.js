@@ -1,11 +1,14 @@
 import mongoose from "mongoose";
-
 const tourSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
   },
   coverImg: {
+    type: String,
+    required: true,
+  },
+  budget: {
     type: String,
     required: true,
   },
@@ -37,12 +40,12 @@ const tourSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  status: {
+    type: Boolean,
+    default: true,
+  },
   tour_cost: {
     type: String,
-    required: true,
-  },
-  cordinators_ids: {
-    type: [String],
     required: true,
   },
   can_admin_reject: {
@@ -66,5 +69,6 @@ const tourSchema = new mongoose.Schema({
     type: [String],
   },
 });
+
 const Tour = mongoose.model("Tour", tourSchema);
 export default Tour;

@@ -6,7 +6,7 @@ import {
 } from "../controllers/tour.controller.js";
 import { checkAdminRole } from "../middleware/checkAdminRole.js";
 const tourRouter = Router();
-tourRouter.route("/create").post(checkAdminRole, createTour);
-tourRouter.route("/getAllTours").get(getAllTours);
-tourRouter.route("/getTour").get(getTourById);
+tourRouter.route("/create-tour").post(checkAdminRole, createTour);
+tourRouter.route("/get-alltours").get(getAllTours);
+tourRouter.route("/get-tour").get(getTourById);
 export { tourRouter };

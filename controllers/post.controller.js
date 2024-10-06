@@ -23,14 +23,15 @@ export const create = async (req, res) => {
 };
 
 export const deletePost = async (req, res) => {
-  const { userEmail, id } = req.body;
-  if (!userEmail || !id) {
+  const id = req.query.id;
+  console.log("this is from delete post ", id);
+  if (!id) {
     return res
       .status(400)
       .json({ message: "Please provide both email and id." });
   }
   try {
-    const post = await Post.findOneAndDelete({ userEmail, _id: id });
+    const post = await Post.findOneAndDelete({ _id: id });
     if (!post) {
       return res.status(404).json({ message: "Post not found." });
     }
@@ -44,11 +45,11 @@ export const deletePost = async (req, res) => {
       .json({ message: "Server error. Please try again later." });
   }
 };
- 
+
 export const getPosts = async (req, res) => {
   try {
-    const userEmail = req.headers.useremail;
-    console.log(userEmail, req.headers);
+    const userEmail = req.query.email;
+    // console.log(userEmail, req.headers);
     const posts = await Post.find({ userEmail });
     if (!posts || posts.length === 0) {
       return res.status(404).json({ message: "No posts found." });
