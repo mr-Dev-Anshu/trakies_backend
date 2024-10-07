@@ -96,9 +96,10 @@ export const createUserProfile = async (req, res) => {
 };
 
 // Get a user profile by ID
-export const getUserProfileBy = async (req, res) => {
+export const getUserProfile = async (req, res) => {
   const email = req.headers.email;
   try {
+    console.log(email) ; 
     const userProfile = await UserProfile.findOne({ email });
     if (!userProfile) {
       return res.status(404).json({ error: "User profile not found" });

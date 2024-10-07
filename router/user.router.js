@@ -5,7 +5,7 @@ import {
   signup,
   updateUserProfile,
   createUserProfile,
-  getUserProfileBy,
+  getUserProfile,
 } from "../controllers/user.controller.js";
 import { checkSuperAdmin } from "../middleware/checkAdminRole.js";
 const router = Router();
@@ -14,5 +14,5 @@ router.route("/signin").post(signin);
 router.route("/logout").post(logout);
 router.route("/createProfile").post(createUserProfile);
 router.route("/updateProfile").post(updateUserProfile);
-router.route("/getProfile").get(getUserProfileBy);
+router.route("/getProfile").get(getUserProfile);
 export default router;

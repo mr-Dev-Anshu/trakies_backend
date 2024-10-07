@@ -4,10 +4,6 @@ const tourSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  coverImg: {
-    type: String,
-    required: true,
-  },
   budget: {
     type: String,
     required: true,
@@ -57,18 +53,17 @@ const tourSchema = new mongoose.Schema({
     default: false,
   },
   include: {
-    type: [String],
+    type: String,
   },
   not_included: {
-    type: [String],
+    type: String,
   },
   back_pack: {
-    type: [String],
+    type: String,
   },
   check_in_baggage: {
-    type: [String],
+    type: String,
   },
 });
-
 const Tour = mongoose.model("Tour", tourSchema);
 export default Tour;
