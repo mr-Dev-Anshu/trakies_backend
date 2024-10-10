@@ -19,6 +19,10 @@ const schema = mongose.Schema(
       type: String,
       required: true,
     },
+    date:{
+       type:Date , 
+       required:true
+    } , 
     receipt:{
          type:String 
     }

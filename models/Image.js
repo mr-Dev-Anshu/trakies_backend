@@ -2,7 +2,8 @@ import mongoose from "mongoose";
 
 const schema = mongoose.Schema({
   id: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Tour",
     required: true,
   },
   url: {
@@ -13,5 +14,4 @@ const schema = mongoose.Schema({
     type: String,
   },
 });
-
 export const Image = mongoose.model("Image", schema);
