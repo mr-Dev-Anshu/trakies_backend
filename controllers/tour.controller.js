@@ -20,7 +20,7 @@ export const getAllTours = async (req, res) => {
         $lookup: {
           from: "images", 
           localField: "_id", 
-          foreignField: "tourId", 
+          foreignField: "id", 
           as: "images", 
         },
       },
