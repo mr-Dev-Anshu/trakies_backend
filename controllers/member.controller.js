@@ -65,7 +65,6 @@ export const deleteMembers = async (req, res) => {
       return res.status(400).json("Please provide the id ");
     }
     const deleted = await Member.deleteOne({ _id: id });
-
     if (!deleted) {
       return res.status(500).json("Error while deleting the member ");
     }

@@ -19,15 +19,19 @@ const schema = mongose.Schema(
       type: String,
       required: true,
     },
-    date:{
-       type:Date , 
-       required:true
-    } , 
-    receipt:{
-         type:String 
-    }
+    date: {
+      type: Date,
+      required: true,
+    },
+    receipt: {
+      type: String,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
-const Expanse  = mongose.model("Expanse", schema);
+const Expanse = mongose.model("Expanse", schema);
 export default Expanse;
