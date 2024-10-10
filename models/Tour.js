@@ -4,6 +4,10 @@ const tourSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  dificulty: {
+    type: String,
+    required: true,
+  },
   budget: {
     type: String,
     required: true,

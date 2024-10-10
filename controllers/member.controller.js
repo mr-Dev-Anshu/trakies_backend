@@ -41,8 +41,8 @@ export const addMember = async (req, res) => {
 
 export const getMembers = async (req, res) => {
   try {
-   const  userEmail =  req.query.email  ; 
-   console.log("Query------" , userEmail ) ; 
+    const userEmail = req.query.email;
+    console.log("Query------", userEmail);
     if (!userEmail) {
       return res
         .status(400)
@@ -55,5 +55,27 @@ export const getMembers = async (req, res) => {
     res.status(200).json(members);
   } catch (error) {
     res.status(500).json({ message: error?.message });
+  }
+};
+
+export const deleteMembers = async (req, res) => {
+  try {
+    const id = req.query.id;
+    if (!id) {
+      return res.status(400).json("Please provide the id ");
+    }
+    const deleted = await Member.deleteOne({ _id: id });
+
+    if (!deleted) {
+      return res.status(500).json("Error while deleting the member ");
+    }
+    return res.status(200).json({
+      message: "Member is deleted successfully ",
+      deleted,
+    });
+  } catch (error) {
+    return res
+      .status(500)
+      .json(error.message || "Error while deleting the member");
   }
 };
