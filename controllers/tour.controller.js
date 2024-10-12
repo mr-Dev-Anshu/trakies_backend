@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Tour from "../models/Tour.js";
 
 // Create a new tour
@@ -38,7 +39,20 @@ export const getTourById = async (req, res) => {
     if (!id) {
       throw new Error("Please provide an id to get the tour details");
     }
-    const tour = await Tour.findById(id);
+    const tour = await Tour.aggregate([
+      {
+        $match: { _id: new  mongoose.Types.ObjectId(id) } 
+      },
+      {
+        $lookup: {
+          from: "images", 
+          localField: "_id", 
+          foreignField: "id", 
+          as: "images", 
+        },
+      },
+    ]);
+    
     if (!tour) {
       return res.status(404).json({ message: "Tour not found" });
     }

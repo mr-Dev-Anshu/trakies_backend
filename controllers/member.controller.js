@@ -7,12 +7,10 @@ export const addMember = async (req, res) => {
     if (!userEmail || !name || !relation || !age || !gender || !contact) {
       return res.status(400).json({ message: "All fields are required." });
     }
-
     const allowedGenders = ["Male", "Female", "Other"];
     if (!allowedGenders.includes(gender)) {
       return res.status(400).json({ message: "Invalid gender." });
     }
-
     const contactRegex = /^[0-9]{10}$/;
     if (!contactRegex.test(contact)) {
       return res
