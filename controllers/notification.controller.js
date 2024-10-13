@@ -14,12 +14,12 @@ export const createNotification = async (req, res) => {
 
 export const updateNotification = async (req, res) => {
   try {
-    const { phone, notificationId } = req.body;
-    if (!phone || !notificationId) {
+    const { email, notificationId } = req.body;
+    if (!email || !notificationId) {
       res.status(400).json("Please provide the phone and notification id ");
     }
     const newSeenNotification = await SeenNotification.create({
-      phone,
+      email,
       notificationId,
     });
     res.status(200).json({ newSeenNotification });
@@ -32,8 +32,8 @@ export const updateNotification = async (req, res) => {
 
 export const getNotifications = async (req, res) => {
   try {
-    const { phone, page = 1, limit = 10 } = req.query;
-    if (!phone) {
+    const { email, page = 1, limit = 10 } = req.query;
+    if (!email) {
       return res.status(400).json("Please provide the phone number");
     }
     const skip = (page - 1) * limit;
@@ -42,7 +42,7 @@ export const getNotifications = async (req, res) => {
       .skip(skip)
       .limit(parseInt(limit));
 
-    const seenNotifications = await SeenNotification.find({ phone }).select(
+    const seenNotifications = await SeenNotification.find({ email }).select(
       "notificationId"
     );
 

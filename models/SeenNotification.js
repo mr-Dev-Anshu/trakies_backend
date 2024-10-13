@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const schema = mongoose.Schema({
-     phone:{
+     email:{
          type:String , 
          required:true 
      } , 
