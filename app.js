@@ -10,6 +10,7 @@ import cors from "cors";
 import TrackLeadRouter from "./router/trackLead.router.js"
 import ExpanseRouter from "./router/expanse.router.js"
 import TourRouter from "./router/tour.js"
+import NotificationRouter from "./router/notification.js"
 const app = express();
 app.use(express.json());
 const corsOptions = {
@@ -27,5 +28,7 @@ app.post("/api/putObject", putObject);
 app.use("/api/Post", postRouter);
 app.use("/api/image", imageRouter);
 app.use("/api/lead" , TrackLeadRouter); 
-app.use("/api/expanse" , ExpanseRouter)
+app.use("/api/expanse" , ExpanseRouter);
+
+app.use("/api/notification" , NotificationRouter )
 export { app };
