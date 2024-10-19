@@ -5,7 +5,7 @@ const schema = mongoose.Schema({
     require: true,
   },
   dob: {
-    type: Date,
+    type: Date, 
   },
   age: {
     type: String,
@@ -28,7 +28,7 @@ const schema = mongoose.Schema({
   address: {
     type: String,
   },
-  Ganesh: {
+  info: {
     type: String,
   },
 });

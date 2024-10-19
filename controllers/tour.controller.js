@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import Tour from "../models/Tour.js";
+import Included from "../models/Included.js";
+import NotIncluded from "../models/NotIncluded.js";
 
 // Create a new tour
 export const createTour = async (req, res) => {
@@ -15,19 +17,19 @@ export const createTour = async (req, res) => {
 // Get all tours
 export const getAllTours = async (req, res) => {
   try {
-    const limit = parseInt(req.query.limit) || 10000; 
+    const limit = parseInt(req.query.limit) || 10000;
     const tours = await Tour.aggregate([
       {
         $lookup: {
-          from: "images", 
-          localField: "_id", 
-          foreignField: "id", 
-          as: "images", 
+          from: "images",
+          localField: "_id",
+          foreignField: "id",
+          as: "images",
         },
       },
-      { $limit: limit }, 
+      { $limit: limit },
     ]);
-    res.status(200).json(tours); 
+    res.status(200).json(tours);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -41,18 +43,18 @@ export const getTourById = async (req, res) => {
     }
     const tour = await Tour.aggregate([
       {
-        $match: { _id: new  mongoose.Types.ObjectId(id) } 
+        $match: { _id: new mongoose.Types.ObjectId(id) },
       },
       {
         $lookup: {
-          from: "images", 
-          localField: "_id", 
-          foreignField: "id", 
-          as: "images", 
+          from: "images",
+          localField: "_id",
+          foreignField: "id",
+          as: "images",
         },
       },
     ]);
-    
+
     if (!tour) {
       return res.status(404).json({ message: "Tour not found" });
     }
@@ -62,9 +64,7 @@ export const getTourById = async (req, res) => {
   }
 };
 
-
-
-export const updateTour  = async (req, res) => {
+export const updateTour = async (req, res) => {
   try {
     const update = req.body;
     const { id } = req.body;
@@ -76,6 +76,60 @@ export const updateTour  = async (req, res) => {
     });
     console.log(updatedExpanse);
     return res.status(200).json(updatedExpanse);
+  } catch (error) {
+    return res.status(500).json(error?.message);
+  }
+};
+
+export const createIncluded = async (req, res) => {
+  try {
+    const tour = new Included(req.body);
+    await tour.save();
+    res.status(201).json(tour);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const createNotIncluded = async (req, res) => {
+  try {
+    const tour = new NotIncluded(req.body);
+    await tour.save();
+    res.status(201).json(tour);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const getIncluded = async (req, res) => {
+  try {
+    const tourId = req.query.tourId;
+    if (!tourId) {
+      return res.status(400).json("Please provide tour id");
+    }
+    const includedData = Included.findOne({ tourId });
+    if (!includedData) {
+      return res.status(404).json("Not Found with this id --> Included Data ");
+    }
+    return res.status(200).json(includedData);
+  } catch (error) {
+    return res.status(500).json(error?.message);
+  }
+};
+
+export const getNotIncluded = async (req, res) => {
+  try {
+    const tourId = req.query.tourId;
+    if (!tourId) {
+      return res.status(400).json("Please provide tour id");
+    }
+    const notIncludedData = NotIncluded.findOne({ tourId });
+    if (!notIncludedData) {
+      return res
+        .status(404)
+        .json("Not Found with this id --> notIncluded  Data ");
+    }
+    return res.status(200).json(notIncludedData);
   } catch (error) {
     return res.status(500).json(error?.message);
   }

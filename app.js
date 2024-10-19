@@ -11,6 +11,8 @@ import TrackLeadRouter from "./router/trackLead.router.js"
 import ExpanseRouter from "./router/expanse.router.js"
 import TourRouter from "./router/tour.js"
 import NotificationRouter from "./router/notification.js"
+import checkPointRouter from "./router/checkPoint.router.js"
+import checkedPointRouter from "./router/checkedPoint.router.js"
 const app = express();
 app.use(express.json());
 const corsOptions = {
@@ -30,5 +32,8 @@ app.use("/api/image", imageRouter);
 app.use("/api/lead" , TrackLeadRouter); 
 app.use("/api/expanse" , ExpanseRouter);
 app.use("/api/notification" , NotificationRouter )
+app.use("/api" , checkPointRouter) ; 
+app.use("/api/checked" , checkedPointRouter); 
+
 export { app };
 

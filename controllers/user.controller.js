@@ -113,20 +113,35 @@ export const getUserProfile = async (req, res) => {
 };
 
 // Update a user profile by ID
+import mongoose from "mongoose";
+
 export const updateUserProfile = async (req, res) => {
   const updates = req.body;
-  const { id } = req.body;
+  const {id} = req.body;
+
   try {
-    const updatedProfile = await UserProfile.findByIdAndUpdate(id, updates, {
+    // Convert id to ObjectId if it's a valid one
+    const objectId = mongoose.Types.ObjectId.isValid(id)
+      ? mongoose.Types.ObjectId(id)
+      : null;
+    if (!objectId) {
+      return res.status(400).json({ error: "Invalid ID format" });
+    }
+
+    const updatedProfile = await UserProfile.findByIdAndUpdate(objectId, updates, {
       new: true,
     });
+
     if (!updatedProfile) {
       return res.status(404).json({ error: "User profile not found" });
     }
+
     res.status(200).json(updatedProfile);
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: "Error updating profile", details: error.message });
+    res.status(500).json({
+      error: "Error updating profile",
+      details: error.message,
+    });
   }
 };
+

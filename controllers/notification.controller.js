@@ -33,9 +33,7 @@ export const updateNotification = async (req, res) => {
 export const getNotifications = async (req, res) => {
   try {
     const { email, page = 1, limit = 10 } = req.query;
-    if (!email) {
-      return res.status(400).json("Please provide the phone number");
-    }
+
     const skip = (page - 1) * limit;
 
     const notifications = await Notification.find()
@@ -56,7 +54,6 @@ export const getNotifications = async (req, res) => {
         seen: seenNotificationIds.includes(notification._id.toString()),
       };
     });
-
     res.status(200).json(result);
   } catch (error) {
     res
