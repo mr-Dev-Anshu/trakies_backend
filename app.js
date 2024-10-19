@@ -15,6 +15,7 @@ import checkPointRouter from "./router/checkPoint.router.js"
 import checkedPointRouter from "./router/checkedPoint.router.js"
 import includedRouter from "./router/Included.js" ;  
 import notIncludedRouter from "./router/notIncluded.js" ; 
+import bookingRouter from "./router/booking.router.js"
 const app = express();
 app.use(express.json());
 const corsOptions = {
@@ -38,6 +39,7 @@ app.use("/api" , checkPointRouter) ;
 app.use("/api/checked" , checkedPointRouter); 
 app.use("/api/included",includedRouter) ; 
 app.use("/api/notIncluded" , notIncludedRouter) ; 
+app.use("/api/booking", bookingRouter) ; 
 
 export { app };
 
