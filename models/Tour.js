@@ -29,6 +29,10 @@ const tourSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
+    tour_end: {
+      type: Date,
+      required: true,
+    },
     booking_close: {
       type: Date,
       required: true,
