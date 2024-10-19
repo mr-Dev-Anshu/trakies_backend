@@ -13,6 +13,8 @@ import TourRouter from "./router/tour.js"
 import NotificationRouter from "./router/notification.js"
 import checkPointRouter from "./router/checkPoint.router.js"
 import checkedPointRouter from "./router/checkedPoint.router.js"
+import includedRouter from "./router/Included.js" ;  
+import notIncludedRouter from "./router/notIncluded.js" ; 
 const app = express();
 app.use(express.json());
 const corsOptions = {
@@ -34,6 +36,8 @@ app.use("/api/expanse" , ExpanseRouter);
 app.use("/api/notification" , NotificationRouter )
 app.use("/api" , checkPointRouter) ; 
 app.use("/api/checked" , checkedPointRouter); 
+app.use("/api/included",includedRouter) ; 
+app.use("/api/notIncluded" , notIncludedRouter) ; 
 
 export { app };
 
