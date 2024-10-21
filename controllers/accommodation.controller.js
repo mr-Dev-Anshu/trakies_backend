@@ -1,5 +1,4 @@
 import Accommodation from "../models/Accommodation";
-
 export const createAccommodation = async (req, res) => {
   try {
     const newAccommodation = new Accommodation(req.body);
@@ -15,14 +14,7 @@ export const createAccommodation = async (req, res) => {
 
 export const getAccommodations = async () => {
   try {
-
-  } catch (error) {
-
-  }
+  } catch (error) {}
 };
 
-export const getAccommodationById = async () => {}; 
-
-
-
-
+export const getAccommodationById = async () => {};
