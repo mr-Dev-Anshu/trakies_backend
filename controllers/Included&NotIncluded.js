@@ -133,8 +133,8 @@ export const updateIncludedItem = async (req, res) => {
 export const getAllIncludedItems = async (req, res) => {
     try {
         const tourId = req.query.tourId ; 
-      const includedItems = await Included.find({tourId});
-      const notIncluded = await NotIncluded.find({tourId}) ; 
+      const includedItems = await Included.findOne({tourId});
+      const notIncluded = await NotIncluded.findOne({tourId}) ; 
       res.status(200).json({ data: {includedItems , notIncluded} });
     } catch (error) {
       res.status(500).json({ message: 'Error fetching Included items', error: error.message });
