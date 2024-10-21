@@ -21,7 +21,7 @@ export const addNotIncludedItem = async (req, res) => {
 export const getAllNotIncludedItems = async (req, res) => {
     try {
         const tourId = req.query.tourId ; 
-      const notIncludedItems = await NotIncluded.find({tourId});
+      const notIncludedItems = await NotIncluded.findById({tourId});
       res.status(200).json({ data: notIncludedItems });
     } catch (error) {
       res.status(500).json({ message: 'Error fetching Not Included items', error: error.message });

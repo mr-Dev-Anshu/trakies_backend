@@ -19,7 +19,7 @@ const checkPointSchema = new mongoose.Schema(
     type: {
       type: String,
       enum:["Qr Code" , "Geo Tagging"],
-      required: true,
+      required: true, 
       trim: true,
     },
     activated: {
