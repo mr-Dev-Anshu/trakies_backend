@@ -48,12 +48,18 @@ export const deletePost = async (req, res) => {
 
 export const getPosts = async (req, res) => {
   try {
-    const userEmail = req.query.email;
-    // console.log(userEmail, req.headers);
-    const posts = await Post.find({ userEmail });
-    if (!posts || posts.length === 0) {
-      return res.status(404).json({ message: "No posts found." });
-    }
+    const limit = req.query.limit ||  20  ; 
+    const posts  = await Post.aggregate([
+      {
+        $lookup: {
+          from: "images",
+          localField: "_id",
+          foreignField: "id",
+          as: "images",
+        },
+      },
+      { $limit: limit },
+    ]);
     return res.status(200).json({
       message: "Posts retrieved successfully.",
       data: posts,
@@ -61,6 +67,6 @@ export const getPosts = async (req, res) => {
   } catch (error) {
     return res
       .status(500)
-      .json({ message: "Server error. Please try again later." });
+      .json(error.message);
   }
 };
