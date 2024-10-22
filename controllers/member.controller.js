@@ -2,9 +2,9 @@ import Member from "../models/Member.js";
 
 export const addMember = async (req, res) => {
   try {
-    const { userEmail, name, relation, age, gender, contact } = req.body;
+    const { userEmail, name, relation, age, gender, contact , email  } = req.body;
 
-    if (!userEmail || !name || !relation || !age || !gender || !contact) {
+    if (!userEmail || !name || !relation || !age || !gender || !contact , !email ) {
       return res.status(400).json({ message: "All fields are required." });
     }
     const allowedGenders = ["Male", "Female", "Other"];
@@ -25,6 +25,7 @@ export const addMember = async (req, res) => {
       age,
       gender,
       contact,
+      email 
     });
 
     await newMember.save();

@@ -78,18 +78,17 @@ export const getAllBookings = async (req, res) => {
 export const getMyTour = async (req, res) => {
     try {
       const email = req.query.email;
-      
   
       const bookingsWithTourDetails = await Booking.aggregate([
         {
-          $match: { email } 
+          $match: { email } // Match bookings with the given email
         },
         {
           $lookup: {
-            from: "tour",
-            localField: "tourId", 
-            foreignField: "_id", 
-            as: "tourDetails"
+            from: "tours", // The collection to join (Tour collection)
+            localField: "tourId", // The field from Booking that matches the _id in Tour
+            foreignField: "_id", // The field from Tour to match
+            as: "tourDetails" // The field name for the joined Tour data
           }
         },
         {
