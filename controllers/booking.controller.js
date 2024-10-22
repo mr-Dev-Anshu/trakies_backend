@@ -75,6 +75,38 @@ export const getAllBookings = async (req, res) => {
       .json({ message: "Error fetching bookings", error: error.message });
   }
 };
+export const getMyTour = async (req, res) => {
+    try {
+      const email = req.query.email;
+      
+  
+      const bookingsWithTourDetails = await Booking.aggregate([
+        {
+          $match: { email } 
+        },
+        {
+          $lookup: {
+            from: "tour",
+            localField: "tourId", 
+            foreignField: "_id", 
+            as: "tourDetails"
+          }
+        },
+        {
+          $unwind: "$tourDetails"
+        }
+      ]);
+  
+      res.status(200).json({ data: bookingsWithTourDetails });
+    } catch (error) {
+      res.status(500).json({
+        message: "Error fetching bookings with tour details",
+        error: error.message
+      });
+    }
+  };
+  
+  
 
 export const getBookingById = async (req, res) => {
   try {

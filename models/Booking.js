@@ -27,6 +27,10 @@ const bookingSchema = new mongoose.Schema({
     ref: "Tour",
     required: true
   },
+  status:{
+     type:Boolean , 
+    default:true 
+  }, 
   accommodation: {
     type: Boolean,
     required: true
