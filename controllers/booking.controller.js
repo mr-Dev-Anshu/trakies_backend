@@ -85,10 +85,10 @@ export const getMyTour = async (req, res) => {
         },
         {
           $lookup: {
-            from: "tours", // The collection to join (Tour collection)
-            localField: "tourId", // The field from Booking that matches the _id in Tour
-            foreignField: "_id", // The field from Tour to match
-            as: "tourDetails" // The field name for the joined Tour data
+            from: "tours",
+            localField: "tourId", 
+            foreignField: "_id", 
+            as: "tourDetails" 
           }
         },
         {
