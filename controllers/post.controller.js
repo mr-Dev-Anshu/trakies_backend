@@ -50,7 +50,6 @@ export const deletePost = async (req, res) => {
 
 export const getPosts = async (req, res) => {
   try {
-    // const limit = req.query.limit ;
     const posts = await Post.aggregate([
       {
         $lookup: {
@@ -60,7 +59,11 @@ export const getPosts = async (req, res) => {
           as: "images",
         },
       },
+      {
+        $sort: { createdAt: -1 }, 
+      },
     ]);
+
     return res.status(200).json({
       message: "Posts retrieved successfully.",
       data: posts,
@@ -69,6 +72,7 @@ export const getPosts = async (req, res) => {
     return res.status(500).json(error.message);
   }
 };
+
 export const getPostById = async (req, res) => {
   try {
     const id = req.query.id ; 
