@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Post from "../models/Post.js";
 
 export const create = async (req, res) => {
@@ -51,6 +52,30 @@ export const getPosts = async (req, res) => {
   try {
     // const limit = req.query.limit ;
     const posts = await Post.aggregate([
+      {
+        $lookup: {
+          from: "images",
+          localField: "_id",
+          foreignField: "id",
+          as: "images",
+        },
+      },
+    ]);
+    return res.status(200).json({
+      message: "Posts retrieved successfully.",
+      data: posts,
+    });
+  } catch (error) {
+    return res.status(500).json(error.message);
+  }
+};
+export const getPostById = async (req, res) => {
+  try {
+    const id = req.query.id ; 
+    const posts = await Post.aggregate([
+      {
+        $match: { _id: new mongoose.Types.ObjectId(id) },
+      },
       {
         $lookup: {
           from: "images",
