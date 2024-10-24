@@ -41,7 +41,7 @@ export const updateNotIncludedItem = async (req, res) => {
       return res.status(404).json({ message: "Not Included item not found" });
     }
     res
-      .status(200)
+      .status(201)
       .json({
         message: "Not Included item updated successfully",
         data: updatedItem,
@@ -117,7 +117,7 @@ export const updateIncludedItem = async (req, res) => {
       return res.status(404).json({ message: "Included item not found" });
     }
     res
-      .status(200)
+      .status(201)
       .json({
         message: "Included item updated successfully",
         data: updatedItem,
