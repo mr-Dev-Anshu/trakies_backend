@@ -2,8 +2,8 @@ import Post from "../models/Post.js";
 
 export const create = async (req, res) => {
   try {
-    const { userEmail, content } = req.body;
-    if (!userEmail || !content) {
+    const { userEmail, content , name  } = req.body;
+    if (!userEmail || !content || !name ) {
       return res
         .status(400)
         .json({ message: "Please Provide  userEmail and Content " });
@@ -11,6 +11,7 @@ export const create = async (req, res) => {
     const newPost = new Post({
       userEmail,
       content,
+       name 
     });
     await newPost.save();
     return res.status(201).json({

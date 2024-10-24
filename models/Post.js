@@ -14,6 +14,7 @@ const schema = mongoose.Schema({
   }
 } , 
  {timestamps:true }
+ 
 );
 const Post = mongoose.model("Post", schema);
 export default Post;
