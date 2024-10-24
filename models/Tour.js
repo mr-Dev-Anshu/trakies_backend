@@ -45,16 +45,24 @@ const tourSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    can_admin_reject:{
-       type:Boolean , 
-       default:false ,
-       required:true 
-    } , 
-     enable_payment_getway:{
-       type:Boolean  , 
-       default:false ,
-       required:true 
-    } 
+    can_admin_reject: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
+    enable_payment_getway: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
+    tourType: {
+      type: String,
+      required: true,
+    },
+    state: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

@@ -49,7 +49,7 @@ export const updateBooking = async (req, res) => {
 
 export const deleteBooking = async (req, res) => {
   try {
-     const id = req.query.id ; 
+    const id = req.query.id;
     const deletedBooking = await Booking.findByIdAndDelete(id);
 
     if (!deletedBooking) {
@@ -66,8 +66,8 @@ export const deleteBooking = async (req, res) => {
 
 export const getAllBookings = async (req, res) => {
   try {
-     const tourId =  req.query.id ; 
-    const bookings = await Booking.find({tourId});
+    const tourId = req.query.id;
+    const bookings = await Booking.find({ tourId });
     res.status(200).json({ data: bookings });
   } catch (error) {
     res
@@ -76,36 +76,42 @@ export const getAllBookings = async (req, res) => {
   }
 };
 export const getMyTour = async (req, res) => {
-    try {
-      const email = req.query.email;
-  
-      const bookingsWithTourDetails = await Booking.aggregate([
-        {
-          $match: { email } // Match bookings with the given email
+  try {
+    const email = req.query.email;
+
+    const bookingsWithTourDetails = await Booking.aggregate([
+      {
+        $match: { email },
+      },
+      {
+        $lookup: {
+          from: "tours",
+          localField: "tourId",
+          foreignField: "_id",
+          as: "tourDetails",
         },
-        {
-          $lookup: {
-            from: "tours",
-            localField: "tourId", 
-            foreignField: "_id", 
-            as: "tourDetails" 
-          }
+      },
+      {
+        $unwind: "$tourDetails",
+      },
+      {
+        $lookup: {
+          from: "images",
+          localField: "tourDetails._id",
+          foreignField: "id",
+          as: "tourDetails.images",
         },
-        {
-          $unwind: "$tourDetails"
-        }
-      ]);
-  
-      res.status(200).json({ data: bookingsWithTourDetails });
-    } catch (error) {
-      res.status(500).json({
-        message: "Error fetching bookings with tour details",
-        error: error.message
-      });
-    }
-  };
-  
-  
+      },
+    ]);
+
+    res.status(200).json({ data: bookingsWithTourDetails });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error fetching bookings with tour details and images",
+      error: error.message,
+    });
+  }
+};
 
 export const getBookingById = async (req, res) => {
   try {

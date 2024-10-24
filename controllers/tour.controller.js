@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import Tour from "../models/Tour.js";
-import Included from "../models/Included.js";
-import NotIncluded from "../models/NotIncluded.js";
+
 
 // Create a new tour
 export const createTour = async (req, res) => {
