@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import Tour from "../models/Tour.js";
 
-
 // Create a new tour
 export const createTour = async (req, res) => {
   try {
@@ -77,5 +76,27 @@ export const updateTour = async (req, res) => {
     return res.status(200).json(updatedExpanse);
   } catch (error) {
     return res.status(500).json(error?.message);
+  }
+};
+
+export const deleteTour = async (req, res) => {
+  try {
+    const id = req.query.id;
+
+    if (!id) {
+      return res
+        .status(400)
+        .json({ message: "Please provide an ID to delete the tour" });
+    }
+
+    const deletedTour = await Tour.findByIdAndDelete(id);
+
+    if (!deletedTour) {
+      return res.status(404).json({ message: "Tour not found" });
+    }
+
+    res.status(200).json({ message: "Tour deleted successfully", deletedTour });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
