@@ -40,6 +40,4 @@ app.use("/api/checked" , checkedPointRouter);
 app.use("/api/included",includedRouter) ; 
 app.use("/api/notIncluded" , notIncludedRouter) ; 
 app.use("/api/booking", bookingRouter) ; 
-
 export { app };
-

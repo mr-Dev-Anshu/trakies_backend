@@ -48,8 +48,8 @@ export const deletePost = async (req, res) => {
 
 export const getPosts = async (req, res) => {
   try {
-    const limit = req.query.limit ||  20  ; 
-    const posts  = await Post.aggregate([
+    // const limit = req.query.limit ;
+    const posts = await Post.aggregate([
       {
         $lookup: {
           from: "images",
@@ -58,15 +58,12 @@ export const getPosts = async (req, res) => {
           as: "images",
         },
       },
-      { $limit: limit },
     ]);
     return res.status(200).json({
       message: "Posts retrieved successfully.",
       data: posts,
     });
   } catch (error) {
-    return res
-      .status(500)
-      .json(error.message);
+    return res.status(500).json(error.message);
   }
 };

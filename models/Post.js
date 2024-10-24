@@ -8,6 +8,12 @@ const schema = mongoose.Schema({
     type: String,
     required: true,
   },
-});
+  name:{
+     type:String , 
+     required:true 
+  }
+} , 
+ {timestamps:true }
+);
 const Post = mongoose.model("Post", schema);
 export default Post;
