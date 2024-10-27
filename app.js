@@ -18,6 +18,7 @@ import notIncludedRouter from "./router/notIncluded.js";
 import bookingRouter from "./router/booking.router.js";
 import baggageRouter from "./router/checkInBaggage.js";
 import backpackRouter from "./router/backPack.js";
+import notesRouter from "./router/notes.js";
 const app = express();
 app.use(express.json());
 const corsOptions = {
@@ -43,5 +44,6 @@ app.use("/api/included", includedRouter);
 app.use("/api/notIncluded", notIncludedRouter);
 app.use("/api/booking", bookingRouter);
 app.use("/api/baggage", baggageRouter);
-app.use("/api/backpack" , backpackRouter) ; 
+app.use("/api/backpack", backpackRouter);
+app.use("/api/notes", notesRouter);
 export { app };
