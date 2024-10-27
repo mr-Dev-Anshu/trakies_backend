@@ -3,8 +3,8 @@ import Post from "../models/Post.js";
 
 export const create = async (req, res) => {
   try {
-    const { userEmail, content , name  } = req.body;
-    if (!userEmail || !content || !name ) {
+    const { userEmail, content, name } = req.body;
+    if (!userEmail || !content || !name) {
       return res
         .status(400)
         .json({ message: "Please Provide  userEmail and Content " });
@@ -12,7 +12,7 @@ export const create = async (req, res) => {
     const newPost = new Post({
       userEmail,
       content,
-       name 
+      name,
     });
     await newPost.save();
     return res.status(201).json({
@@ -60,7 +60,7 @@ export const getPosts = async (req, res) => {
         },
       },
       {
-        $sort: { createdAt: -1 }, 
+        $sort: { createdAt: -1 },
       },
     ]);
 
@@ -75,7 +75,7 @@ export const getPosts = async (req, res) => {
 
 export const getPostById = async (req, res) => {
   try {
-    const id = req.query.id ; 
+    const id = req.query.id;
     const posts = await Post.aggregate([
       {
         $match: { _id: new mongoose.Types.ObjectId(id) },

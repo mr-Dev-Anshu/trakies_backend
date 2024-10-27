@@ -12,5 +12,5 @@ const schema = mongoose.Schema({
   },
 });
 
-const NotIncluded = mongoose.model("NotIncluded", schema);
-export default NotIncluded;
+const BackPack = mongoose.model("BackPack", schema);
+export default BackPack;

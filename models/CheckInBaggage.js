@@ -12,5 +12,5 @@ const schema = mongoose.Schema({
   },
 });
 
-const NotIncluded = mongoose.model("NotIncluded", schema);
-export default NotIncluded;
+const CheckInBaggage = mongoose.model("CheckInBagage", schema);
+export default CheckInBaggage;

@@ -10,23 +10,24 @@ export const addNotIncludedItem = async (req, res) => {
       .status(201)
       .json({ message: "Not Included item added successfully", data: newItem });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        message: "Error adding Not Included item",
-        error: error.message,
-      });
+    res.status(500).json({
+      message: "Error adding Not Included item",
+      error: error.message,
+    });
   }
 };
 export const getAllNotIncludedItems = async (req, res) => {
-    try {
-        const tourId = req.query.tourId ; 
-      const notIncludedItems = await NotIncluded.findOne({tourId});
-      res.status(200).json({ data: notIncludedItems });
-    } catch (error) {
-      res.status(500).json({ message: 'Error fetching Not Included items', error: error.message });
-    }
-  };
+  try {
+    const tourId = req.query.tourId;
+    const notIncludedItems = await NotIncluded.find({ tourId });
+    res.status(200).json(notIncludedItems);
+  } catch (error) {
+    res.status(500).json({
+      message: "Error fetching Not Included items",
+      error: error.message,
+    });
+  }
+};
 
 export const updateNotIncludedItem = async (req, res) => {
   try {
@@ -40,19 +41,15 @@ export const updateNotIncludedItem = async (req, res) => {
     if (!updatedItem) {
       return res.status(404).json({ message: "Not Included item not found" });
     }
-    res
-      .status(201)
-      .json({
-        message: "Not Included item updated successfully",
-        data: updatedItem,
-      });
+    res.status(201).json({
+      message: "Not Included item updated successfully",
+      data: updatedItem,
+    });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        message: "Error updating Not Included item",
-        error: error.message,
-      });
+    res.status(500).json({
+      message: "Error updating Not Included item",
+      error: error.message,
+    });
   }
 };
 
@@ -65,12 +62,10 @@ export const deleteNotIncludedItem = async (req, res) => {
     }
     res.status(200).json({ message: "Not Included item deleted successfully" });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        message: "Error deleting Not Included item",
-        error: error.message,
-      });
+    res.status(500).json({
+      message: "Error deleting Not Included item",
+      error: error.message,
+    });
   }
 };
 
@@ -116,12 +111,10 @@ export const updateIncludedItem = async (req, res) => {
     if (!updatedItem) {
       return res.status(404).json({ message: "Included item not found" });
     }
-    res
-      .status(201)
-      .json({
-        message: "Included item updated successfully",
-        data: updatedItem,
-      });
+    res.status(201).json({
+      message: "Included item updated successfully",
+      data: updatedItem,
+    });
   } catch (error) {
     res
       .status(500)
@@ -129,14 +122,14 @@ export const updateIncludedItem = async (req, res) => {
   }
 };
 
-
 export const getAllIncludedItems = async (req, res) => {
-    try {
-        const tourId = req.query.tourId ; 
-      const includedItems = await Included.findOne({tourId});
-      const notIncluded = await NotIncluded.findOne({tourId}) ; 
-      res.status(200).json({ data: {includedItems , notIncluded} });
-    } catch (error) {
-      res.status(500).json({ message: 'Error fetching Included items', error: error.message });
-    }
-  };
+  try {
+    const tourId = req.query.tourId;
+    const included = await NotIncluded.find({ tourId });
+    res.status(200).json(included);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error fetching Included items", error: error.message });
+  }
+};
