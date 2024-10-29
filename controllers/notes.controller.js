@@ -13,17 +13,17 @@ export const createNotes = async (req, res) => {
   }
 };
 
-export const deleteNotes = async () => {
+export const deleteNotes = async (req , res ) => {
   try {
     const id = req.query.id;
     const deleteNotes = await Notes.findByIdAndDelete(id);
-    res.status(200).json(deleteNotes);
+    res.status(200).json("Delete successfully");
   } catch (error) {
     res.status(500).json(error?.message);
   }
 };
 
-export const updateNotes = async (req , res ) => {
+export const updateNotes = async (req, res) => {
   try {
     const id = req.query.id;
     const body = req.body;
@@ -43,5 +43,3 @@ export const getNotes = async (req, res) => {
     res.status(500).json(error?.message);
   }
 };
-
-

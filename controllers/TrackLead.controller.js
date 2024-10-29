@@ -3,8 +3,8 @@ import TourLead from "../models/TourLead.js";
 
 export const createTourLead = async (req, res) => {
   try {
-    const { email, track_id } = req.body;
-    const newLead = await TourLead.create({ email, track_id });
+    const newLead = new TourLead(req.body);
+    await newLead.save();
     res.status(200).json(newLead);
   } catch (error) {
     res
@@ -34,8 +34,8 @@ export const getAllTour = async (req, res) => {
       },
 
       {
-         $match:{"leads.email":email} 
-      } , 
+        $match: { "leads.email": email },
+      },
 
       {
         $project: {
@@ -55,3 +55,15 @@ export const getAllTour = async (req, res) => {
   }
 };
 
+export const getTrekLeads = async () => {
+  try {
+    const tourId = req.query.tourId;
+    if(!tourId){
+       return res.status(400).json("Please provide tour id ") ; 
+    }
+    const allTrekLeads = await TourLead.find({ tourId });
+    res.status(200).json(allTrekLeads);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};

@@ -10,6 +10,22 @@ const schema = mongoose.Schema({
     type: String,
     required: true,
   },
+  name: {
+    type: String,
+    required: true,
+  },
+  gender: {
+    type: String,
+    required: true,
+  },
+  age: {
+    type: String,
+    required: true,
+  },
+  phone: {
+    type: String,
+    required: true,
+  },
 });
 const TourLead = mongoose.model("TourLead", schema);
 export default TourLead;

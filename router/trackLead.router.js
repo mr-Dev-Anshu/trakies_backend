@@ -4,6 +4,6 @@ import { createTourLead,  getAllTour } from "../controllers/TrackLead.controller
 const router = Router() ; 
 
 router.route("/create-lead").post(createTourLead) ; 
-router.route("/get-tour").get(getAllTour)  ; 
+router.route("/get-tour").get(getAllTour); 
 
 export default router  ; 
