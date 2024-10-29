@@ -125,7 +125,7 @@ export const updateIncludedItem = async (req, res) => {
 export const getAllIncludedItems = async (req, res) => {
   try {
     const tourId = req.query.tourId;
-    const included = await NotIncluded.find({ tourId });
+    const included = await Included.find({ tourId });
     res.status(200).json(included);
   } catch (error) {
     res
