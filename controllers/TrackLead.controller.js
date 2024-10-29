@@ -5,7 +5,7 @@ export const createTourLead = async (req, res) => {
   try {
     const newLead = new TourLead(req.body);
     await newLead.save();
-    res.status(200).json(newLead);
+    res.status(201).json(newLead);
   } catch (error) {
     res
       .status(error?.status || 500)
@@ -55,13 +55,16 @@ export const getAllTour = async (req, res) => {
   }
 };
 
-export const getTrekLeads = async () => {
+
+
+export const getTrekLeads = async (req , res ) => {
   try {
     const tourId = req.query.tourId;
     if(!tourId){
        return res.status(400).json("Please provide tour id ") ; 
     }
-    const allTrekLeads = await TourLead.find({ tourId });
+    const allTrekLeads = await TourLead.find({ track_id:tourId });
+    console.log(allTrekLeads) ;
     res.status(200).json(allTrekLeads);
   } catch (error) {
     res.status(500).json(error.message);
