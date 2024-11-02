@@ -102,6 +102,39 @@ export const getMyTour = async (req, res) => {
           as: "tourDetails.images",
         },
       },
+      {
+        $lookup: {
+          from: "checkinbagages",
+          localField: "tourId",
+          foreignField: "tourId",
+          as: "checkinbagages"
+        }
+      },
+      {
+        $lookup: {
+          from: "backpacks",
+          localField: "tourId",
+          foreignField: "tourId",
+          as: "backpacks"
+        }
+      },
+      {
+        $lookup: {
+          from: "includeds",
+          localField: "tourId",
+          foreignField: "tourId",
+          as: "includeds"
+        }
+      },
+      {
+        $lookup: {
+          from: "notincludeds",
+          localField: "tourId",
+          foreignField: "tourId",
+          as: "notincludeds"
+        }
+      },
+
     ]);
 
     res.status(200).json({ data: bookingsWithTourDetails });

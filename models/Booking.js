@@ -42,7 +42,7 @@ const bookingSchema = new mongoose.Schema(
     },
   },
   {
-    timestamps: true, // Adds createdAt and updatedAt fields automatically
+    timestamps: true, 
   }
 );
 
