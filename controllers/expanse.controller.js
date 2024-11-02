@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
 import Expanse from "../models/Expanse.js";
 import Tour from "../models/Tour.js";
+import Booking from "../models/Booking.js";
 
 export const addExpance = async (req, res) => {
   try {
     const newExpanse = await Expanse.create(req.body);
-    return res.status(200).json(newExpanse);
+    return res.status(201).json(newExpanse);
   } catch (error) {
     return res.status(error?.status || 500).json(error?.message);
   }
@@ -17,13 +18,15 @@ export const getExpanses = async (req, res) => {
       return res.status(400).json("Please provide tour id ");
     }
     const expanses = await Expanse.find({ tour_id });
-    const budget = await Tour.findById(tour_id).select("budget");
+    const allBookingCout = await Booking.countDocuments({ tourId: tour_id });
+    const { tour_cost } = await Tour.findOne({ _id: tour_id }).select('tour_cost')
+
     const spent = await Expanse.aggregate([
-      { $match: { tour_id: new mongoose.Types.ObjectId(tour_id) } }, // Ensure tour_id is ObjectId
+      { $match: { tour_id: new mongoose.Types.ObjectId(tour_id) } },
       {
         $group: {
           _id: null,
-          spent: { $sum: { $toDouble: "$amount" } }, // Sum the 'amount' field
+          spent: { $sum: { $toDouble: "$amount" } },
         },
       },
       {
@@ -34,7 +37,7 @@ export const getExpanses = async (req, res) => {
       },
     ]);
 
-    return res.status(200).json({ expanses, spent, budget});
+    return res.status(200).json({ expanses, spent, budget: Number(allBookingCout) * Number(tour_cost), balance: (Number(allBookingCout) * Number(tour_cost)) - Number(spent[0].spent) });
   } catch (error) {
     return res
       .status(error?.status || 500)

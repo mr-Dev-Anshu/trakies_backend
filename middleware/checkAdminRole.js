@@ -9,7 +9,7 @@ export const checkAdminRole = async (req, res, next) => {
     if (!email) {
       throw new ApiError(
         400,
-        "Email is required in header for authentication "
+        "Email is required in header for authentication"
       );
     }
     const user = await User.findOne({ email });
