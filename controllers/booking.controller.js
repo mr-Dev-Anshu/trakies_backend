@@ -134,7 +134,14 @@ export const getMyTour = async (req, res) => {
           as: "notincludeds"
         }
       },
-
+      {
+        $lookup: {
+          from: "allocatedaccommodations",
+          localField: "_id",
+          foreignField: "bookingId",
+          as: "allocatedAccommodation"
+        }
+      },
     ]);
 
     res.status(200).json({ data: bookingsWithTourDetails });
@@ -142,7 +149,7 @@ export const getMyTour = async (req, res) => {
     res.status(500).json({
       message: "Error fetching bookings with tour details and images",
       error: error.message,
-    });
+    }); 
   }
 };
 

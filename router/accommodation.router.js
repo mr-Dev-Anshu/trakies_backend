@@ -1,11 +1,14 @@
 import { Router } from "express";
-import { createAccommodation, getAccommodationById, getAccommodations } from "../controllers/accommodation.controller";
+import { createAccommodation, deleteAccommodation, getAccommodationById, getAllAccommodations, updateAccommodation } from "../controllers/accommodation.js";
 
 
 
 const router = Router() ; 
 
-router.route("/create-accommodation").post(createAccommodation) ;
-router.route("/get-accommodations").get(getAccommodations) ; 
-router.route("/get-accommodation").get(getAccommodationById) ; 
-// router.route("/update")
+router.route("/create").post(createAccommodation) ; 
+router.route("/get").get(getAccommodationById); 
+router.route("/getByTour").get(getAllAccommodations) ; 
+router.route("/update").post(updateAccommodation) ; 
+router.route("/delete").delete(deleteAccommodation) ; 
+
+export default router ; 

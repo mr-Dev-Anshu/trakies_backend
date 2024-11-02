@@ -6,10 +6,11 @@ const accommodationSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    capecity: {
-      type: Number,
-      required: true,
-    },
+     tourId:{
+        type:mongoose.Schema.Types.ObjectId , 
+        ref:"Tour", 
+        required:true
+     },  
     location: {
       type: String,
       required: true,
@@ -20,6 +21,5 @@ const accommodationSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-
 const Accommodation = mongoose.model("Accommodation", accommodationSchema);
 export default Accommodation;
