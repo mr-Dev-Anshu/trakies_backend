@@ -24,6 +24,9 @@ export const signup = async (req, res) => {
     });
   }
 };
+
+
+
 export const signin = async (req, res) => {
   try {
     const body = req.body;
@@ -42,6 +45,9 @@ export const signin = async (req, res) => {
       .json(error.message || "Something went worong");
   }
 };
+
+
+
 export const logout = () => {
   console.log("Logout is processing");
 };
@@ -50,6 +56,8 @@ export const makeProfile = async (req, res) => {
   console.log(data);
   res.json("working fine");
 };
+
+
 
 export const createUserProfile = async (req, res) => {
   const {
@@ -62,7 +70,7 @@ export const createUserProfile = async (req, res) => {
     id_number,
     address,
     id_type,
-    Ganesh 
+    Ganesh
   } = req.body;
   if (!email) {
     return res.status(400).json({ error: "Email is required" });
@@ -86,9 +94,10 @@ export const createUserProfile = async (req, res) => {
       id_type,
       Ganesh
     });
+
     const savedProfile = await newUserProfile.save();
     res.status(201).json(savedProfile);
-  } catch (error) {       
+  } catch (error) {
     res
       .status(500)
       .json({ error: "Error creating profile", details: error.message });
@@ -99,7 +108,7 @@ export const createUserProfile = async (req, res) => {
 export const getUserProfile = async (req, res) => {
   const email = req.headers.email;
   try {
-    console.log(email) ; 
+    console.log(email);
     const userProfile = await UserProfile.findOne({ email });
     if (!userProfile) {
       return res.status(404).json({ error: "User profile not found" });
@@ -115,19 +124,14 @@ export const getUserProfile = async (req, res) => {
 
 export const updateUserProfile = async (req, res) => {
   const updates = req.body;
-  const {id} = req.body;
-
+  const { id } = req.body;
   try {
- 
-
     const updatedProfile = await UserProfile.findByIdAndUpdate(id, updates, {
       new: true,
     });
-
     if (!updatedProfile) {
       return res.status(404).json({ error: "User profile not found" });
     }
-
     res.status(200).json(updatedProfile);
   } catch (error) {
     res.status(500).json({
@@ -136,4 +140,3 @@ export const updateUserProfile = async (req, res) => {
     });
   }
 };
-

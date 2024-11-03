@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 
 const schema = mongoose.Schema({
+    tourId:{
+       type:mongoose.Schema.Types.ObjectId , 
+       ref:"Tour", 
+       required:true   
+    }, 
      email:{
          type:String , 
          required:true 

@@ -42,7 +42,6 @@ export const updateCheckPoint = async (req, res) => {
     if (!checkPoint) {
       return res.status(404).json({ message: "CheckPoint not found" });
     }
-
     res
       .status(200)
       .json({ message: "CheckPoint updated successfully", data: checkPoint });
