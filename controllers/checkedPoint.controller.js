@@ -21,7 +21,7 @@ export const getCheckedPoints = async (req, res) => {
       return res.status(400).json("Please provide the email");
     }
     console.log(email)
-    const checkedPoints = await CheckedPoint.find({ email })
+    const checkedPoints = await CheckedPoint.find({ email , tourId })
     console.log(checkedPoints)
     const checkedPointsId = checkedPoints.map((ch) =>
       ch.checkPointId.toString()
