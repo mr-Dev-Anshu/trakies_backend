@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import CheckPoint from "../models/checkPoints.js";
 import CheckedPoint from "../models/checkedPoints.js";
 
@@ -20,12 +21,12 @@ export const getCheckedPoints = async (req, res) => {
       return res.status(400).json("Please provide the email");
     }
     console.log(email)
-    const checkedPoints = await CheckedPoint.find({email} )
+    const checkedPoints = await CheckedPoint.find({ email })
     console.log(checkedPoints)
     const checkedPointsId = checkedPoints.map((ch) =>
       ch.checkPointId.toString()
     );
-    console.log(checkedPointsId) ; 
+    console.log(checkedPointsId);
     const checkPoint = await CheckPoint.find({ tourId });
     const result = checkPoint.map((check) => {
       return {
@@ -33,8 +34,34 @@ export const getCheckedPoints = async (req, res) => {
         checked: checkedPointsId.includes(check._id.toString()),
       };
     });
-    return res.status(200).json(result) ; 
+    return res.status(200).json(result);
   } catch (error) {
     return res.status(500).json(error.message);
   }
 };
+
+
+export const getAllCheckedUserByCheckPointId = async (req, res) => {
+  try {
+    const checkPointId = req.query.checkPointId;
+    if (checkPointId) {
+      res.status(400).json("Please Provide the checkpoint ID ");
+    }
+    const data = await CheckedPoint.aggregate([
+      {
+        $match: { checkPointId: new mongoose.Types.ObjectId(checkPointId) }
+      },
+      {
+        $lookup: {
+          from: 'user_profiles',
+          localField: 'email',
+          foreignField: 'email',
+          as: 'profileData'
+        }
+      }
+    ])
+    res.status(200).json(data);
+  } catch (error) {
+     res.status(500).json(error.message)
+  }
+}
