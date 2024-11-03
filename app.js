@@ -19,9 +19,9 @@ import bookingRouter from "./router/booking.router.js";
 import baggageRouter from "./router/checkInBaggage.js";
 import backpackRouter from "./router/backPack.js";
 import notesRouter from "./router/notes.js";
-import interestedRouter from "./router/interested.router.js" ; 
+import interestedRouter from "./router/interested.router.js";
 import allocatedAccommodation from "./router/allocatedAccommodation.js"
-import accommodation from "./router/accommodation.router.js" ; 
+import accommodation from "./router/accommodation.router.js";
 const app = express();
 app.use(express.json());
 const corsOptions = {
@@ -49,8 +49,7 @@ app.use("/api/booking", bookingRouter);
 app.use("/api/baggage", baggageRouter);
 app.use("/api/backpack", backpackRouter);
 app.use("/api/notes", notesRouter);
-app.use("/api/interested", interestedRouter) ; 
-app.use("/api/allocated" , allocatedAccommodation) ; 
-app.use("/api/accommodation" , accommodation) ; 
+app.use("/api/interested", interestedRouter);
+app.use("/api/allocated", allocatedAccommodation);
+app.use("/api/accommodation", accommodation);
 export { app };
-

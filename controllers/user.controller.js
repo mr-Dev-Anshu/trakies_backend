@@ -112,23 +112,15 @@ export const getUserProfile = async (req, res) => {
   }
 };
 
-// Update a user profile by ID
-import mongoose from "mongoose";
 
 export const updateUserProfile = async (req, res) => {
   const updates = req.body;
   const {id} = req.body;
 
   try {
-    // Convert id to ObjectId if it's a valid one
-    const objectId = mongoose.Types.ObjectId.isValid(id)
-      ? mongoose.Types.ObjectId(id)
-      : null;
-    if (!objectId) {
-      return res.status(400).json({ error: "Invalid ID format" });
-    }
+ 
 
-    const updatedProfile = await UserProfile.findByIdAndUpdate(objectId, updates, {
+    const updatedProfile = await UserProfile.findByIdAndUpdate(id, updates, {
       new: true,
     });
 

@@ -4,8 +4,12 @@ const schema = mongoose.Schema({
     type: String,
     require: true,
   },
+  name: {
+    type: String,
+    required: true
+  },
   dob: {
-    type: Date, 
+    type: Date,
   },
   age: {
     type: String,

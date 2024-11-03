@@ -25,6 +25,38 @@ export const getAllTours = async (req, res) => {
           as: "images",
         },
       },
+      {
+        $lookup: {
+          from: "checkinbagages",
+          localField: "_id",
+          foreignField: "tourId",
+          as: "checkinbagages"
+        }
+      },
+      {
+        $lookup: {
+          from: "backpacks",
+          localField: "_id",
+          foreignField: "tourId",
+          as: "backpacks"
+        }
+      },
+      {
+        $lookup: {
+          from: "includeds",
+          localField: "_id",
+          foreignField: "tourId",
+          as: "includeds"
+        }
+      },
+      {
+        $lookup: {
+          from: "notincludeds",
+          localField: "_id",
+          foreignField: "tourId",
+          as: "notincludeds"
+        }
+      },
       { $limit: limit },
     ]);
     res.status(200).json(tours);
@@ -69,6 +101,7 @@ export const updateTour = async (req, res) => {
     if (!id) {
       return res.status(400).json("Please provoid  id ");
     }
+    console.log(id) ;   
     const updatedExpanse = await Tour.findByIdAndUpdate(id, update, {
       new: true,
     });
@@ -81,8 +114,7 @@ export const updateTour = async (req, res) => {
 
 export const deleteTour = async (req, res) => {
   try {
-    const id = req.query.id;
-
+    const id = req.query.id ; 
     if (!id) {
       return res
         .status(400)
