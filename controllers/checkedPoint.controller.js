@@ -21,7 +21,7 @@ export const getCheckedPoints = async (req, res) => {
       return res.status(400).json("Please provide the email");
     }
     console.log(email)
-    const checkedPoints = await CheckedPoint.find({ email , tourId })
+    const checkedPoints = await CheckedPoint.find({ email, tourId })
     console.log(checkedPoints)
     const checkedPointsId = checkedPoints.map((ch) =>
       ch.checkPointId.toString()
@@ -43,13 +43,14 @@ export const getCheckedPoints = async (req, res) => {
 
 export const getAllCheckedUserByCheckPointId = async (req, res) => {
   try {
-    const checkPointId = req.query.checkPointId;
-    if (checkPointId) {
-      res.status(400).json("Please Provide the checkpoint ID ");
+    const id = req.query.id;
+    console.log(id);
+    if (!id) {
+     return  res.status(400).json("Please Provide the checkpoint ID ");
     }
     const data = await CheckedPoint.aggregate([
       {
-        $match: { checkPointId: new mongoose.Types.ObjectId(checkPointId) }
+        $match: { checkPointId: new mongoose.Types.ObjectId(id) }
       },
       {
         $lookup: {
@@ -58,10 +59,13 @@ export const getAllCheckedUserByCheckPointId = async (req, res) => {
           foreignField: 'email',
           as: 'profileData'
         }
+      },
+      {
+        $unwind: "$profileData"
       }
     ])
     res.status(200).json(data);
   } catch (error) {
-     res.status(500).json(error.message)
+    res.status(500).json(error.message)
   }
 }
