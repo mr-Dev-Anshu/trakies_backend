@@ -22,7 +22,7 @@ export const getCheckedPoints = async (req, res) => {
     }
     console.log(email)
     const checkedPoints = await CheckedPoint.find({ email, tourId })
-    console.log(checkedPoints)
+    // console.log(checkedPoints)
     const checkedPointsId = checkedPoints.map((ch) =>
       ch.checkPointId.toString()
     );

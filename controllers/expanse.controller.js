@@ -37,7 +37,9 @@ export const getExpanses = async (req, res) => {
       },
     ]);
 
-    return res.status(200).json({ expanses, spent, budget: Number(allBookingCout) * Number(tour_cost), balance: (Number(allBookingCout) * Number(tour_cost)) - Number(spent[0].spent) });
+    const balance = (Number(allBookingCout)* Number(tour_cost)) - Number(spent[0]?.spent)|| 0 ; 
+
+    return res.status(200).json({ expanses, spent, budget: Number(allBookingCout) * Number(tour_cost), balance});
   } catch (error) {
     return res
       .status(error?.status || 500)

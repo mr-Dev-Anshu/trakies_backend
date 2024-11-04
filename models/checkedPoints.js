@@ -15,7 +15,7 @@ const schema = mongoose.Schema({
          ref:"CheckPoint", 
          required:true
      }
-}) ; 
+}); 
 
 const CheckedPoint = mongoose.model("CheckedPoint" , schema)
 
