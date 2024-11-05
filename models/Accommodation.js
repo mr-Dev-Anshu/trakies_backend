@@ -16,6 +16,14 @@ const accommodationSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    numberOfRoom:{
+      type:Number , 
+      required:true 
+    } , 
+    totalOccupancy:{
+       type:Number , 
+       required:true 
+    }
   },
   {
     timestamps: true,

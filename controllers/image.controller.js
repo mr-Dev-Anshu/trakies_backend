@@ -16,7 +16,7 @@ export const createImage = async (req, res) => {
 export const getImages = async (req, res) => {
   try {
     const id = req.headers.id; 
-    console.log("this is from getImage " ,  id);
+    console.log("this is from getImage "  ,  id);
     if (!id) {
       return res
         .status(400)
@@ -31,3 +31,4 @@ export const getImages = async (req, res) => {
     return res.status(500).json(error?.message);
   }
 };
+

@@ -4,8 +4,8 @@ import mongoose from 'mongoose';
 // Create a new accommodation
 export async function createAccommodation(req, res) {
     try {
-        const { guestHouseName, tourId, location } = req.body;
-        const newAccommodation = await Accommodation.create({ guestHouseName, tourId, location });
+        
+        const newAccommodation = await Accommodation.create(req.body);
         res.status(201).json(newAccommodation);
     } catch (error) {
         res.status(500).json({ message: 'Error creating accommodation', error: error.message });
@@ -26,8 +26,8 @@ export async function getAllAccommodations(req, res) {
 // Get accommodation by ID
 export async function getAccommodationById(req, res) {
     try {
-        const id = req.query.id;
-        const accommodation = await Accommodation.findById(id);
+        const tourId = req.query.tourId;
+        const accommodation = await Accommodation.find({tourId});
         if (!accommodation) {
             return res.status(404).json({ message: 'Accommodation not found' });
         }
@@ -41,10 +41,10 @@ export async function getAccommodationById(req, res) {
 export async function updateAccommodation(req, res) {
     try {
         const id = req.query.id;
-        const { guestHouseName, tourId, location } = req.body;
+       
         const updatedAccommodation = await Accommodation.findByIdAndUpdate(
             id,
-            { guestHouseName, tourId, location },
+           req.body , 
             { new: true }
         );
         if (!updatedAccommodation) {
