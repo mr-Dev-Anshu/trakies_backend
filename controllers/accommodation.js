@@ -4,7 +4,6 @@ import mongoose from 'mongoose';
 // Create a new accommodation
 export async function createAccommodation(req, res) {
     try {
-        
         const newAccommodation = await Accommodation.create(req.body);
         res.status(201).json(newAccommodation);
     } catch (error) {
@@ -27,7 +26,35 @@ export async function getAllAccommodations(req, res) {
 export async function getAccommodationById(req, res) {
     try {
         const tourId = req.query.tourId;
-        const accommodation = await Accommodation.find({tourId});
+        const accommodation = await Accommodation.aggregate([
+            {
+              $match: { tourId: new mongoose.Types.ObjectId(tourId) },
+            },
+            {
+              $lookup: {
+                from: "allocatedaccommodations",
+                localField: "_id",
+                foreignField: "accommodationId",
+                as: "allocated",
+              },
+            },
+            {
+              $addFields: {
+                allocatedCount: { $size: "$allocated" },
+              },
+            },
+            {
+              $project: {
+                guestHouseName: 1,
+                location: 1,
+                numberOfRoom: 1,
+                totalOccupancy: 1,
+                allocatedCount: 1,
+              },
+            },
+          ]);
+          
+          
         if (!accommodation) {
             return res.status(404).json({ message: 'Accommodation not found' });
         }
@@ -41,10 +68,10 @@ export async function getAccommodationById(req, res) {
 export async function updateAccommodation(req, res) {
     try {
         const id = req.query.id;
-       
+
         const updatedAccommodation = await Accommodation.findByIdAndUpdate(
             id,
-           req.body , 
+            req.body,
             { new: true }
         );
         if (!updatedAccommodation) {
