@@ -10,7 +10,4 @@ router.route("/getbyid").get(getBookingById)
 router.route("/update").post(updateBooking) ; 
 router.route("/delete").delete(deleteBooking) ; 
 router.route("/get-my-tour").get(getMyTour); 
-
-
 export default router ; 
-

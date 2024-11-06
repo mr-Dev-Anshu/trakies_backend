@@ -68,3 +68,33 @@ export async function deleteAllocatedAccommodation(req, res) {
         res.status(500).json({ message: 'Error deleting accommodation', error: error.message });
     }
 }
+
+
+
+
+export async function getAllocatedAccommodationsByAccommodationId(req, res) {
+    try {
+        const accommodationId  = req.query.accoId;
+
+        const accommodations = await AllocatedAccommodation.aggregate([
+            {
+                $match: { accommodationId: new mongoose.Types.ObjectId(accommodationId) }
+            },
+            {
+                $lookup: {
+                    from: "bookings",
+                    localField: "bookingId",
+                    foreignField: "_id",
+                    as: "bookingData"
+                }
+            },
+            { $unwind: "$bookingData" }
+        ]);
+
+        // const accommodations = await AllocatedAccommodation.find({})
+
+        res.status(200).json(accommodations);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching accommodations', error: error.message });
+    }
+}

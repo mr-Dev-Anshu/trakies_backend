@@ -1,3 +1,4 @@
+import CheckedPoint from "../models/checkedPoints.js";
 import CheckPoint from "../models/checkPoints.js";
 
 export const createCheckPoint = async (req, res) => {
@@ -73,6 +74,7 @@ export const getAllCheckPoints = async (req, res) => {
   try {
     const tourId = req.query.id;
     const checkPoints = await CheckPoint.find({ tourId });
+    // const totalCheckedCount = CheckedPoint.countDocuments({tourId}).
     res.status(200).json(checkPoints);
   } catch (error) {
     res

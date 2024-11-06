@@ -155,7 +155,7 @@ export const getMyTour = async (req, res) => {
 
 export const getBookingById = async (req, res) => {
   try {
-    const { id } = req.params;
+    const  id = req.query.id;
     const booking = await Booking.findById(id);
     if (!booking) {
       return res.status(404).json({ message: "Booking not found" });
