@@ -57,6 +57,29 @@ export const getAllTours = async (req, res) => {
           as: "notincludeds"
         }
       },
+
+      {
+        $lookup: {
+          from: "bookings",
+          localField: "_id",
+          foreignField: "tourId",
+          as: "allBookings"
+        }
+      },
+
+     
+
+      {
+        $addFields: {
+          bookedCount: { $size: "$allBookings" }
+        }
+      },
+
+      {
+        $project: {
+          allBookings: 0, // Exclude the allBookings array
+        },
+      },
       { $limit: limit },
     ]);
     res.status(200).json(tours);
@@ -101,7 +124,7 @@ export const updateTour = async (req, res) => {
     if (!id) {
       return res.status(400).json("Please provoid  id ");
     }
-    console.log(id) ;   
+    console.log(id);
     const updatedExpanse = await Tour.findByIdAndUpdate(id, update, {
       new: true,
     });
@@ -114,7 +137,7 @@ export const updateTour = async (req, res) => {
 
 export const deleteTour = async (req, res) => {
   try {
-    const id = req.query.id ; 
+    const id = req.query.id;
     if (!id) {
       return res
         .status(400)
