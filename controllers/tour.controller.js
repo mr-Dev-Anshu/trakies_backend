@@ -66,9 +66,6 @@ export const getAllTours = async (req, res) => {
           as: "allBookings"
         }
       },
-
-     
-
       {
         $addFields: {
           bookedCount: { $size: "$allBookings" }

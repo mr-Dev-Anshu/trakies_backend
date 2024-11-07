@@ -58,11 +58,8 @@ export async function updateAllocatedAccommodation(req, res) {
 
 export async function deleteAllocatedAccommodation(req, res) {
     try {
-        const id = req.query.id;
-        const deletedAccommodation = await AllocatedAccommodation.findByIdAndDelete(id);
-        if (!deletedAccommodation) {
-            return res.status(404).json({ message: 'Accommodation not found' });
-        }
+        const bookingId = req.query.id;
+        const data = await AllocatedAccommodation.findOneAndDelete({ bookingId : new mongoose.Types.ObjectId(bookingId) });
         res.status(200).json({ message: 'Accommodation deleted successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Error deleting accommodation', error: error.message });
@@ -74,7 +71,7 @@ export async function deleteAllocatedAccommodation(req, res) {
 
 export async function getAllocatedAccommodationsByAccommodationId(req, res) {
     try {
-        const accommodationId  = req.query.accoId;
+        const accommodationId = req.query.accoId;
 
         const accommodations = await AllocatedAccommodation.aggregate([
             {
