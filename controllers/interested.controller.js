@@ -49,7 +49,10 @@ export async function getInterestedByTourId(req, res) {
         // const interests = await Interested.find({ tourId });
         const interestedData = await Interested.aggregate([
             {
-                $match: { tourId: new  mongoose.Types.ObjectId(tourId) }
+                $match: {
+                    tourId: new mongoose.Types.ObjectId(tourId),
+                    enrolled: false
+                }
             },
             {
                 $lookup: {
