@@ -69,3 +69,24 @@ export const getAllCheckedUserByCheckPointId = async (req, res) => {
     res.status(500).json(error.message)
   }
 }
+
+
+export const deleteCheckedPoint = async (req, res) => {
+  try {
+    const docId = req.query.id ;
+    
+    if (!docId) {
+      return res.status(400).json("Please provide the document ID");
+    }
+
+    const deletedCheckedPoint = await CheckedPoint.findByIdAndDelete(docId);
+
+    if (!deletedCheckedPoint) {
+      return res.status(404).json("CheckedPoint not found");
+    }
+
+    return res.status(200).json({ message: "CheckedPoint deleted successfully" });
+  } catch (error) {
+    return res.status(500).json(error.message);
+  }
+};
