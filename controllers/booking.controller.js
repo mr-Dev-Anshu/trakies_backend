@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Booking from "../models/Booking.js";
 
 export const createBooking = async (req, res) => {
@@ -56,7 +57,20 @@ export const deleteBooking = async (req, res) => {
 export const getAllBookings = async (req, res) => {
   try {
     const tourId = req.query.id;
-    const bookings = await Booking.find({ tourId });
+    // const bookings = await Booking.find({ tourId });
+    const bookings = await Booking.aggregate(
+      [
+         {$match:{tourId:new mongoose.Types.ObjectId(tourId)}} , 
+         {
+          $lookup:{
+              from:"user_profiles", 
+               localField:"email", 
+               foreignField:"email",
+               as:"ProfileData"
+          }
+         }
+      ]
+    )
     res.status(200).json({ data: bookings });
   } catch (error) {
     res
