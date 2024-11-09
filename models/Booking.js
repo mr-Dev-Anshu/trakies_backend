@@ -31,7 +31,7 @@ const bookingSchema = new mongoose.Schema(
     status: {
       type: Number,
       default: 2,
-    }, 
+    },
     accommodation: {
       type: Boolean,
       required: true,
@@ -40,9 +40,12 @@ const bookingSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
     },
+    receivedAmount: {
+      type: Number
+    },
   },
   {
-    timestamps: true, 
+    timestamps: true,
   }
 );
 
