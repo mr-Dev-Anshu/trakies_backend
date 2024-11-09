@@ -90,3 +90,19 @@ export const deleteCheckedPoint = async (req, res) => {
     return res.status(500).json(error.message);
   }
 };
+
+export const resetCheckedPoints = async (req, res) => {
+  try {
+    const checkPointId = req.query.id;
+    const deleted = await CheckedPoint.deleteMany({ checkPointId });
+
+    if (deleted.deletedCount === 0) {
+      return res.status(404).json("CheckedPoint not found");
+    }
+
+    return res.status(200).json({ message: "CheckedPoints deleted successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
