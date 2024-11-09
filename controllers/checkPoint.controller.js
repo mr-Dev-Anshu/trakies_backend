@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import CheckedPoint from "../models/checkedPoints.js";
 import CheckPoint from "../models/checkPoints.js";
 
@@ -72,9 +73,34 @@ export const deleteCheckPoint = async (req, res) => {
 
 export const getAllCheckPoints = async (req, res) => {
   try {
-    const tourId = req.query.id;
-    const checkPoints = await CheckPoint.find({ tourId });
+    const tourId = req.query.tourId;
+    // const checkPoints = await CheckPoint.find({ tourId });
     // const totalCheckedCount = CheckedPoint.countDocuments({tourId}).
+
+    const checkPoints = await CheckPoint.aggregate([
+      {
+        $match: { tourId: new mongoose.Types.ObjectId(tourId) },
+      },
+      {
+        $lookup: {
+          from: "checkedpoints",
+          localField: "_id", // Ensure `tourId` exists directly in CheckPoint schema
+          foreignField: "checkPointId", // Ensure `tourId` exists in checkedpoints as well
+          as: "allChecked"
+        }
+      },
+      {
+        $addFields: {
+          allCheckedCount: { $size: "$allChecked" },
+        },
+      },
+
+      {
+        $project:{
+            allChecked:0
+        }
+      }
+    ]);
     res.status(200).json(checkPoints);
   } catch (error) {
     res

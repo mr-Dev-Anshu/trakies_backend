@@ -131,6 +131,14 @@ export const getMyTour = async (req, res) => {
           as: "allocatedAccommodation"
         }
       },
+      {
+        $lookup: {
+          from: "accommodations",
+          localField: "allocatedAccommodation.accommodationId", // Use accommodationId from allocatedAccommodation",
+          foreignField: "_id",
+          as: "accommodation"
+        }
+      },
     ]);
 
     res.status(200).json({ data: bookingsWithTourDetails });
