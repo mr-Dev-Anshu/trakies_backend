@@ -13,5 +13,8 @@ const schema = mongoose.Schema({
   type: {
     type: String,
   },
+  typeId:{
+     type:String 
+  }
 });
 export const Image = mongoose.model("Image", schema);

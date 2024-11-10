@@ -60,15 +60,15 @@ export const getAllBookings = async (req, res) => {
     // const bookings = await Booking.find({ tourId });
     const bookings = await Booking.aggregate(
       [
-         {$match:{tourId:new mongoose.Types.ObjectId(tourId)}} , 
-         {
-          $lookup:{
-              from:"user_profiles", 
-               localField:"email", 
-               foreignField:"email",
-               as:"ProfileData"
+        { $match: { tourId: new mongoose.Types.ObjectId(tourId) } },
+        {
+          $lookup: {
+            from: "user_profiles",
+            localField: "email",
+            foreignField: "email",
+            as: "ProfileData"
           }
-         }
+        }
       ]
     )
     res.status(200).json({ data: bookings });
@@ -160,13 +160,13 @@ export const getMyTour = async (req, res) => {
     res.status(500).json({
       message: "Error fetching bookings with tour details and images",
       error: error.message,
-    }); 
+    });
   }
 };
 
 export const getBookingById = async (req, res) => {
   try {
-    const  id = req.query.id;
+    const id = req.query.id;
     const booking = await Booking.findById(id);
     if (!booking) {
       return res.status(404).json({ message: "Booking not found" });

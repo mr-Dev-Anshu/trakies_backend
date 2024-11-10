@@ -22,6 +22,9 @@ import notesRouter from "./router/notes.js";
 import interestedRouter from "./router/interested.router.js";
 import allocatedAccommodation from "./router/allocatedAccommodation.js"
 import accommodation from "./router/accommodation.router.js";
+import transportRouter from "./router/transport.router.js" ; 
+import boardingPointRouter from "./router/boardingPoints.router.js" ; 
+import allocatedTransportRouter from "./router/allocatedTransport.js"
 const app = express();
 app.use(express.json());
 const corsOptions = {
@@ -52,4 +55,7 @@ app.use("/api/notes", notesRouter);
 app.use("/api/interested", interestedRouter);
 app.use("/api/allocated", allocatedAccommodation);
 app.use("/api/accommodation", accommodation);
+app.use("/api/transport" , transportRouter) ; 
+app.use("/api/board",boardingPointRouter)
+app.use("/api/allocatedTransport" , allocatedTransportRouter) ; 
 export { app };
