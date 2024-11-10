@@ -24,6 +24,10 @@ const schema = mongoose.Schema({
     boardingPointDate: {
         type: Date,
         required: true
+    } , 
+    location:{
+         type:String , 
+         required:true 
     }
 }, { timestamps: true })
 
