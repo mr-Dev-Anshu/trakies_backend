@@ -175,6 +175,15 @@ export const getMyTour = async (req, res) => {
         }
       },
 
+      {
+         $lookup:{
+           from:"boardingpoints", 
+           localField:"transport._id", 
+           foreignField:"transportId", 
+           as:"boardingPoints"
+         }
+      }
+
     ]);
 
     res.status(200).json({ data: bookingsWithTourDetails });
