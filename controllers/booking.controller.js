@@ -82,77 +82,81 @@ export const getMyTour = async (req, res) => {
   try {
     const email = req.query.email;
 
+    if (!email){
+       return res.status(400).json("Please provide email")
+    }
+
     const bookingsWithTourDetails = await Booking.aggregate([
       {
         $match: { email },
       },
-      // {
-      //   $lookup: {
-      //     from: "tours",
-      //     localField: "tourId",
-      //     foreignField: "_id",
-      //     as: "tourDetails",
-      //   },
-      // },
-      // {
-      //   $unwind: "$tourDetails",
-      // },
-      // {
-      //   $lookup: {
-      //     from: "images",
-      //     localField: "tourDetails._id",
-      //     foreignField: "id",
-      //     as: "tourDetails.images",
-      //   },
-      // },
-      // {
-      //   $lookup: {
-      //     from: "checkinbagages",
-      //     localField: "tourId",
-      //     foreignField: "tourId",
-      //     as: "checkinbagages"
-      //   }
-      // },
-      // {
-      //   $lookup: {
-      //     from: "backpacks",
-      //     localField: "tourId",
-      //     foreignField: "tourId",
-      //     as: "backpacks"
-      //   }
-      // },
-      // {
-      //   $lookup: {
-      //     from: "includeds",
-      //     localField: "tourId",
-      //     foreignField: "tourId",
-      //     as: "includeds"
-      //   }
-      // },
-      // {
-      //   $lookup: {
-      //     from: "notincludeds",
-      //     localField: "tourId",
-      //     foreignField: "tourId",
-      //     as: "notincludeds"
-      //   }
-      // },
-      // {
-      //   $lookup: {
-      //     from: "allocatedaccommodations",
-      //     localField: "_id",
-      //     foreignField: "bookingId",
-      //     as: "allocatedAccommodation"
-      //   }
-      // },
-      // {
-      //   $lookup: {
-      //     from: "accommodations",
-      //     localField: "allocatedAccommodation.accommodationId", 
-      //     foreignField: "_id",
-      //     as: "accommodation"
-      //   }
-      // },
+      {
+        $lookup: {
+          from: "tours",
+          localField: "tourId",
+          foreignField: "_id",
+          as: "tourDetails",
+        },
+      },
+      {
+        $unwind: "$tourDetails",
+      },
+      {
+        $lookup: {
+          from: "images",
+          localField: "tourDetails._id",
+          foreignField: "id",
+          as: "tourDetails.images",
+        },
+      },
+      {
+        $lookup: {
+          from: "checkinbagages",
+          localField: "tourId",
+          foreignField: "tourId",
+          as: "checkinbagages"
+        }
+      },
+      {
+        $lookup: {
+          from: "backpacks",
+          localField: "tourId",
+          foreignField: "tourId",
+          as: "backpacks"
+        }
+      },
+      {
+        $lookup: {
+          from: "includeds",
+          localField: "tourId",
+          foreignField: "tourId",
+          as: "includeds"
+        }
+      },
+      {
+        $lookup: {
+          from: "notincludeds",
+          localField: "tourId",
+          foreignField: "tourId",
+          as: "notincludeds"
+        }
+      },
+      {
+        $lookup: {
+          from: "allocatedaccommodations",
+          localField: "_id",
+          foreignField: "bookingId",
+          as: "allocatedAccommodation"
+        }
+      },
+      {
+        $lookup: {
+          from: "accommodations",
+          localField: "allocatedAccommodation.accommodationId", 
+          foreignField: "_id",
+          as: "accommodation"
+        }
+      },
 
       {
         $lookup: {
