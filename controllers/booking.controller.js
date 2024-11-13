@@ -149,15 +149,7 @@ export const getMyTour = async (req, res) => {
           as: "allocatedAccommodation"
         }
       },
-      {
-        $lookup: {
-          from: "accommodations",
-          localField: "allocatedAccommodation.accommodationId", 
-          foreignField: "_id",
-          as: "accommodation"
-        }
-      },
-
+    
       {
         $lookup: {
           from: "allcatedtransports",
@@ -166,24 +158,7 @@ export const getMyTour = async (req, res) => {
           as: "allocatedTransport"
         }
       },
-      // {
-      //   $lookup: {
-      //     from: "transports",
-      //     localField: "allocatedTransport.transportId", 
-      //     foreignField: "_id",
-      //     as: "transport"
-      //   }
-      // },
-
-      // {
-      //    $lookup:{
-      //      from:"boardingpoints", 
-      //      localField:"transport._id", 
-      //      foreignField:"transportId", 
-      //      as:"boardingPoints"
-      //    }
-      // }
-
+    
     ]);
 
     res.status(200).json({ data: bookingsWithTourDetails });

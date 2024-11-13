@@ -12,7 +12,7 @@ export const addBoardingPoint = async (req, res) => {
 };
 
 export const getBoardingPointsByTransportId = async (req, res) => {
-    const transportId  = req.query.transportId;
+    const transportId = req.query.transportId;
     try {
         const boardingPoints = await BoardingPoint.find({ transportId });
         res.status(200).json(boardingPoints);
@@ -20,6 +20,22 @@ export const getBoardingPointsByTransportId = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+export const getBoardingPointById = async (req , res ) => {
+    try {
+        const id = req.query.id;
+        if (!id) {
+            return res.status(400).json("Please provide id ");
+        }
+
+        const data = await BoardingPoint.findById(id);
+        return res.status(200).json(data);
+
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+
+    }
+}
 
 export const updateBoardingPoint = async (req, res) => {
     const id = req.query.id;
@@ -37,7 +53,7 @@ export const updateBoardingPoint = async (req, res) => {
 };
 
 export const deleteBoardingPoint = async (req, res) => {
-    const id  = req.query.id;
+    const id = req.query.id;
     try {
         await BoardingPoint.findByIdAndDelete(id);
         res.status(200).end();

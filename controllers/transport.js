@@ -11,7 +11,7 @@ export const createTransport = async (req, res) => {
     }
 }
 
-export const getTransport = async (req, res) => {
+export const getTransportByTourId = async (req, res) => {
 
     try {
         const tourId = req.query.tourId;
@@ -52,6 +52,24 @@ export const getTransport = async (req, res) => {
         res.status(200).json(transport);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching transport', error: error.message });
+    }
+}
+
+export const getTransportById = async (req, res) => {
+    try {
+
+        const id = req.query.id;
+        console.log(id) 
+        if (!id) {
+            return res.status(400).json("Please provide id ");
+        }
+
+        const data = await Transport.findById(id);
+        return res.status(200).json(data);
+
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching transport', error: error.message });
+
     }
 }
 

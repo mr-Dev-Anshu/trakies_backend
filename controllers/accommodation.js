@@ -23,44 +23,62 @@ export async function getAllAccommodations(req, res) {
 }
 
 // Get accommodation by ID
-export async function getAccommodationById(req, res) {
+export async function getAccommodationByTourId(req, res) {
     try {
         const tourId = req.query.tourId;
         const accommodation = await Accommodation.aggregate([
             {
-              $match: { tourId: new mongoose.Types.ObjectId(tourId) },
+                $match: { tourId: new mongoose.Types.ObjectId(tourId) },
             },
             {
-              $lookup: {
-                from: "allocatedaccommodations",
-                localField: "_id",
-                foreignField: "accommodationId",
-                as: "allocated",
-              },
+                $lookup: {
+                    from: "allocatedaccommodations",
+                    localField: "_id",
+                    foreignField: "accommodationId",
+                    as: "allocated",
+                },
             },
             {
-              $addFields: {
-                allocatedCount: { $size: "$allocated" },
-              },
+                $addFields: {
+                    allocatedCount: { $size: "$allocated" },
+                },
             },
             {
-              $project: {
-                guestHouseName: 1,
-                location: 1,
-                numberOfRoom: 1,
-                totalOccupancy: 1,
-                allocatedCount: 1,
-              },
+                $project: {
+                    guestHouseName: 1,
+                    location: 1,
+                    numberOfRoom: 1,
+                    totalOccupancy: 1,
+                    allocatedCount: 1,
+                },
             },
-          ]);
-          
-          
+        ]);
+
+
         if (!accommodation) {
             return res.status(404).json({ message: 'Accommodation not found' });
         }
         res.status(200).json(accommodation);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching accommodation', error: error.message });
+    }
+}
+
+export const getAccommodationById = async (req, res) => {
+    try {
+
+        const id = req.query.id;
+        if (!id) {
+            return res.status(400).json("Please provide Id ");
+        }
+
+        const data = await Accommodation.findById(id);
+        return res.status(200).json(data);
+
+
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching accommodation', error: error.message });
+
     }
 }
 
