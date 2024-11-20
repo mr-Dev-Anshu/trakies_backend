@@ -66,7 +66,6 @@ export async function getAccommodationByTourId(req, res) {
 
 export const getAccommodationById = async (req, res) => {
     try {
-
         const id = req.query.id;
         if (!id) {
             return res.status(400).json("Please provide Id ");

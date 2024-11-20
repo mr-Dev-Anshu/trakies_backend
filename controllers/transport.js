@@ -57,7 +57,6 @@ export const getTransportByTourId = async (req, res) => {
 
 export const getTransportById = async (req, res) => {
     try {
-
         const id = req.query.id;
         console.log(id) 
         if (!id) {

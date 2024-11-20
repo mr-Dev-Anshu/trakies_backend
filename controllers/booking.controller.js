@@ -158,7 +158,6 @@ export const getMyTour = async (req, res) => {
           as: "allocatedTransport"
         }
       },
-    
     ]);
 
     res.status(200).json({ data: bookingsWithTourDetails });

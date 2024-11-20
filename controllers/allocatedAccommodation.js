@@ -59,7 +59,7 @@ export async function updateAllocatedAccommodation(req, res) {
 export async function deleteAllocatedAccommodation(req, res) {
     try {
         const bookingId = req.query.id;
-        const data = await AllocatedAccommodation.findOneAndDelete({ bookingId : new mongoose.Types.ObjectId(bookingId) });
+        const data = await AllocatedAccommodation.findOneAndDelete({ bookingId: new mongoose.Types.ObjectId(bookingId) });
         res.status(200).json({ message: 'Accommodation deleted successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Error deleting accommodation', error: error.message });
@@ -76,6 +76,35 @@ export async function getAllocatedAccommodationsByAccommodationId(req, res) {
         const accommodations = await AllocatedAccommodation.aggregate([
             {
                 $match: { accommodationId: new mongoose.Types.ObjectId(accommodationId) }
+            },
+            {
+                $lookup: {
+                    from: "bookings",
+                    localField: "bookingId",
+                    foreignField: "_id",
+                    as: "bookingData"
+                }
+            },
+            { $unwind: "$bookingData" }
+        ]);
+
+        // const accommodations = await AllocatedAccommodation.find({})
+
+        res.status(200).json(accommodations);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching accommodations', error: error.message });
+    }
+}
+
+
+export const getByRoomId = async (req , res  ) => {
+    try {
+        const roomNumber = req.query.roomNumber;
+        console.log(typeof(roomNumber))
+
+        const accommodations = await AllocatedAccommodation.aggregate([
+            {
+                $match: { roomNumber:Number(roomNumber) }
             },
             {
                 $lookup: {
