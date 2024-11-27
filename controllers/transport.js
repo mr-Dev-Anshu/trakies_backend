@@ -21,7 +21,7 @@ export const getTransportByTourId = async (req, res) => {
             },
             {
                 $lookup: {
-                    from: "allocatedtransports",
+                    from: "allcatedtransports",
                     localField: "_id",
                     foreignField: "transportId",
                     as: "allocated",

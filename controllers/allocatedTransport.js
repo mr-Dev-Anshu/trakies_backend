@@ -37,12 +37,12 @@ export async function getAllcatedTransport(req, res) {
 
 export const getByBusNumber = async (req , res )=> {
       try {
+        const transportId  = req.query.transportId; 
 
-        const busNumber = req.query.busNumber ; 
         
         const data = await AllcatedTransport.aggregate([
             {
-                $match: { busNumber:busNumber }
+                $match: { transportId: new mongoose.Types.ObjectId(transportId) }
             },
             {
                 $lookup: {
