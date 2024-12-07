@@ -27,15 +27,11 @@ import boardingPointRouter from "./router/boardingPoints.router.js" ;
 import allocatedTransportRouter from "./router/allocatedTransport.js"
 const app = express();
 app.use(express.json());
-const corsOptions = {
-  origin: "http://localhost:3000",
-  credentials: true,
-};
+
 dotenv.config({
   path: "./.env",
 });
-app.use(cors(corsOptions));
-app.use("/api/users", userRouter);
+app.use(cors({ origin: ['http://localhost:3000', 'https://master.dw8kmiy5kau5k.amplifyapp.com'], credentials: true }));app.use("/api/users", userRouter);
 app.use("/api/tour", TourRouter);
 app.use("/api/member", memberRouter);
 app.post("/api/putObject", putObject);
