@@ -57,54 +57,41 @@ export const makeProfile = async (req, res) => {
   res.json("working fine");
 };
 
-
-
 export const createUserProfile = async (req, res) => {
-  const {
-    email,
-    dob,
-    age,
-    gender,
-    contact,
-    emergency_contact,
-    id_number,
-    address,
-    id_type,
-    Ganesh
-  } = req.body;
-  if (!email) {
-    return res.status(400).json({ error: "Email is required" });
-  }
-  const alreadyExits = await UserProfile.findOne({ email });
-  console.log("existing data ", alreadyExits);
-
-  if (alreadyExits) {
-    return res.status(400).json({ error: "Profile is already Exist " });
-  }
   try {
-    const newUserProfile = new UserProfile({
+    const { email, name, dob, age, gender, contact, emergency_contact, id_number, id_type, address, info } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ message: "Email is required." });
+    }
+
+    const existingUser = await UserProfile.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "User with this email already exists." });
+    }
+
+    const newUser = new UserProfile({
       email,
+      name,
       dob,
       age,
       gender,
       contact,
       emergency_contact,
       id_number,
-      address,
       id_type,
-      Ganesh
+      address,
+      info
     });
 
-    const savedProfile = await newUserProfile.save();
-    res.status(201).json(savedProfile);
+    await newUser.save();
+    res.status(201).json({ message: "User profile created successfully.", user: newUser });
+
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: "Error creating profile", details: error.message });
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
-// Get a user profile by ID
 export const getUserProfile = async (req, res) => {
   const email = req.headers.email;
   try {
