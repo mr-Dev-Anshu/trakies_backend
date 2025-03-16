@@ -21,7 +21,7 @@ export const putObject = async (req, res) => {
       throw new Error("Please provide the fileName and contentType ");
     }
     const command = new PutObjectCommand({
-      Bucket: "sanathana.sarthi",
+      Bucket: "trekies",
       Key: `uploads/${fileName}`,
       ContentType: contentType,
     });
