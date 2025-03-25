@@ -5,6 +5,9 @@ const tourSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    email:{
+      type:String
+    } , 
     difficulty: {
       type: String,
       required: true,
