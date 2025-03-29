@@ -66,6 +66,13 @@ const tourSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    faqUrl:{
+       type:String 
+    } , 
+    consentFormUrl:{
+       type:String 
+    } , 
+    
   },
   { timestamps: true }
 );
