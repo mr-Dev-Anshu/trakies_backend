@@ -25,6 +25,7 @@ import accommodation from "./router/accommodation.router.js";
 import transportRouter from "./router/transport.router.js" ; 
 import boardingPointRouter from "./router/boardingPoints.router.js" ; 
 import allocatedTransportRouter from "./router/allocatedTransport.js"
+import { cloneTour } from "./controllers/clone.controler.js";
 const app = express();
 app.use(express.json());
 
@@ -54,6 +55,7 @@ app.use(cors({
 app.use("/api/tour", TourRouter);
 app.use("/api/member", memberRouter);
 app.post("/api/putObject", putObject);
+app.get("/api/clone-tour" , cloneTour)
 app.use("/api/Post", postRouter);
 app.use("/api/image", imageRouter);
 app.use("/api/lead", TrackLeadRouter);
