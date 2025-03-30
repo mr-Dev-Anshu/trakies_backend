@@ -5,9 +5,10 @@ const tourSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    email:{
-      type:String
-    } , 
+    email: {
+      type: String,
+      required: true,
+    },
     difficulty: {
       type: String,
       required: true,
@@ -72,7 +73,6 @@ const tourSchema = new mongoose.Schema(
     consentFormUrl:{
        type:String 
     } , 
-    
   },
   { timestamps: true }
 );
