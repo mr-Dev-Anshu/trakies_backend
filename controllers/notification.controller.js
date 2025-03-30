@@ -30,7 +30,7 @@ export const updateNotification = async (req, res) => {
   }
 };
 
-export const getNotifications = async (req, res) => {
+export const getNotificationsWithPagination = async (req, res) => {
   try {
     const { email, page = 1, limit = 10 } = req.query;
 
@@ -54,6 +54,35 @@ export const getNotifications = async (req, res) => {
         seen: seenNotificationIds.includes(notification._id.toString()),
       };
     });
+    res.status(200).json(result);
+  } catch (error) {
+    res
+      .status(error?.status || 500)
+      .json(error?.message || "Something went wrong with getNotifications");
+  }
+};
+
+export const getNotifications = async (req, res) => {
+  try {
+    const { email } = req.query;
+
+    const notifications = await Notification.find();
+
+    const seenNotifications = await SeenNotification.find({ email }).select(
+      "notificationId"
+    );
+
+    const seenNotificationIds = seenNotifications.map((sn) =>
+      sn.notificationId.toString()
+    );
+
+    const result = notifications.map((notification) => {
+      return {
+        ...notification._doc,
+        seen: seenNotificationIds.includes(notification._id.toString()),
+      };
+    });
+
     res.status(200).json(result);
   } catch (error) {
     res
