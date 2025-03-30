@@ -1,10 +1,16 @@
 import { Router } from "express";
-import { createNotification, getNotifications, updateNotification } from "../controllers/notification.controller.js";
+import {
+  createNotification,
+  getNotifications,
+  getNotificationsWithPagination,
+  updateNotification,
+} from "../controllers/notification.controller.js";
 
-const router = Router () ; 
+const router = Router();
 
-router.route("/create").post(createNotification) ; 
+router.route("/create").post(createNotification);
 router.route("/update").post(updateNotification);
-router.route("/get").get(getNotifications) ; 
+router.route("/getWithPagination").get(getNotificationsWithPagination);
+router.route("/get").get(getNotifications);
 
-export default router ; 
+export default router;
