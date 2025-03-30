@@ -26,6 +26,7 @@ import transportRouter from "./router/transport.router.js" ;
 import boardingPointRouter from "./router/boardingPoints.router.js" ; 
 import allocatedTransportRouter from "./router/allocatedTransport.js"
 import { cloneTour } from "./controllers/clone.controler.js";
+import { checkAdminRole } from "./middleware/checkAdminRole.js";
 const app = express();
 app.use(express.json());
 
@@ -57,7 +58,7 @@ app.use("/api/users" , userRouter) ;
 app.use("/api/tour", TourRouter);
 app.use("/api/member", memberRouter);
 app.post("/api/putObject", putObject);
-app.get("/api/clone-tour" , cloneTour)
+app.get("/api/clone-tour" , checkAdminRole ,  cloneTour)
 app.use("/api/Post", postRouter);
 app.use("/api/image", imageRouter);
 app.use("/api/lead", TrackLeadRouter);
