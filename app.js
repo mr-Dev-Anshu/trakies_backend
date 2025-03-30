@@ -52,6 +52,8 @@ app.use(cors({
   },
   credentials: true
 }));
+
+app.use("/api/users" , userRouter) ; 
 app.use("/api/tour", TourRouter);
 app.use("/api/member", memberRouter);
 app.post("/api/putObject", putObject);
