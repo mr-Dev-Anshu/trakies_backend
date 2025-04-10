@@ -158,6 +158,15 @@ export const getMyTour = async (req, res) => {
           as: "allocatedTransport"
         }
       },
+
+      {
+          $lookup:{
+             from:"members", 
+             localField:"email",
+             foreignField:"userEmail", 
+             as:"Members"
+          }
+      }
     ]);
 
     res.status(200).json({ data: bookingsWithTourDetails });
