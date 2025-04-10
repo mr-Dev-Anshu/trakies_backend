@@ -104,20 +104,28 @@ export const getByRoomId = async (req , res  ) => {
 
         const accommodations = await AllocatedAccommodation.aggregate([
             {
-                $match: { roomNumber:Number(roomNumber) }
+              $match: { roomNumber: Number(roomNumber) },
             },
             {
-                $lookup: {
-                    from: "bookings",
-                    localField: "bookingId",
-                    foreignField: "_id",
-                    as: "bookingData"
-                }
+              $lookup: {
+                from: "bookings", 
+                localField: "bookingId",
+                foreignField: "_id",
+                as: "bookingData",
+              },
             },
-            { $unwind: "$bookingData" }
-        ]);
+            { $unwind: "$bookingData" }, 
+            {
+              $lookup: {
+                from: "user_profiles", 
+                localField: "bookingData.email", 
+                foreignField: "email", 
+                as: "userProfileData", 
+              },
+            },
+            { $unwind: "$userProfileData" }, 
+          ]);
 
-        // const accommodations = await AllocatedAccommodation.find({})
 
         res.status(200).json(accommodations);
     } catch (error) {
