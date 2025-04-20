@@ -27,6 +27,7 @@ import boardingPointRouter from "./router/boardingPoints.router.js" ;
 import allocatedTransportRouter from "./router/allocatedTransport.js"
 import { cloneTour } from "./controllers/clone.controler.js";
 import { checkAdminRole } from "./middleware/checkAdminRole.js";
+import adminRouter from './router/auth.js'
 const app = express();
 app.use(express.json());
 
@@ -53,7 +54,7 @@ app.use(cors({
   },
   credentials: true
 }));
-
+app.use('/api/admin' , adminRouter)
 app.use("/api/users" , userRouter) ; 
 app.use("/api/tour", TourRouter);
 app.use("/api/member", memberRouter);
