@@ -62,3 +62,18 @@ export const updateExpanse = async (req, res) => {
     return res.status(500).json(error?.message);
   }
 };
+
+
+
+export const deleteExpanse = async (req, res) => {
+  const id = req.query.id;
+   if (!id){
+      return res.status(400).json({message:"Please provide id!"})
+   }
+  try {
+      await Expanse.findByIdAndDelete(id);
+      res.status(200).end();
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
+};
