@@ -103,8 +103,39 @@ export const getTourById = async (req, res) => {
           as: "images",
         },
       },
+      {
+        $lookup: {
+          from: "checkinbagages",
+          localField: "_id",
+          foreignField: "tourId",
+          as: "checkinbagages"
+        }
+      },
+      {
+        $lookup: {
+          from: "backpacks",
+          localField: "_id",
+          foreignField: "tourId",
+          as: "backpacks"
+        }
+      },
+      {
+        $lookup: {
+          from: "includeds",
+          localField: "_id",
+          foreignField: "tourId",
+          as: "includeds"
+        }
+      },
+      {
+        $lookup: {
+          from: "notincludeds",
+          localField: "_id",
+          foreignField: "tourId",
+          as: "notincludeds"
+        }
+      },
     ]);
-
     if (!tour) {
       return res.status(404).json({ message: "Tour not found" });
     }
