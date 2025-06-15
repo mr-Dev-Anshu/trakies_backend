@@ -37,7 +37,7 @@ dotenv.config({
 
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://master.dw8kmiy5kau5k.amplifyapp.com',
+  'https://master.d16q2xfz9dm6yw.amplifyapp.com',
   'https://your-production-frontend.com'
 ];
 
