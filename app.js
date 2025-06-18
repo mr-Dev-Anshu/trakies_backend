@@ -35,25 +35,16 @@ dotenv.config({
   path: "./.env",
 });
 
-const allowedOrigins = [
-  'http://localhost:3000',
-  'https://master.d16q2xfz9dm6yw.amplifyapp.com',
-  'https://your-production-frontend.com'
-];
+// const allowedOrigins = [
+//   'http://localhost:3000',
+//   'https://master.d16q2xfz9dm6yw.amplifyapp.com',
+// ];
 
-     
 app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
+  origin: true, 
+  credentials: true 
 }));
+
 app.use('/api/admin' , adminRouter)
 app.use("/api/users" , userRouter) ; 
 app.use("/api/tour", TourRouter);
