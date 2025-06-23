@@ -28,6 +28,7 @@ import allocatedTransportRouter from "./router/allocatedTransport.js"
 import { cloneTour } from "./controllers/clone.controler.js";
 import { checkAdminRole } from "./middleware/checkAdminRole.js";
 import adminRouter from './router/auth.js'
+import FAQRouter from './router/faq.router.js';
 const app = express();
 app.use(express.json());
 
@@ -35,16 +36,22 @@ dotenv.config({
   path: "./.env",
 });
 
-// const allowedOrigins = [
-//   'http://localhost:3000',
-//   'https://master.d16q2xfz9dm6yw.amplifyapp.com',
-// ];
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://master.d16q2xfz9dm6yw.amplifyapp.com',
+];
 
 app.use(cors({
-  origin: true, 
-  credentials: true 
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
 }));
-
 app.use('/api/admin' , adminRouter)
 app.use("/api/users" , userRouter) ; 
 app.use("/api/tour", TourRouter);
@@ -70,4 +77,5 @@ app.use("/api/accommodation", accommodation);
 app.use("/api/transport" , transportRouter) ; 
 app.use("/api/board",boardingPointRouter)
 app.use("/api/allocatedTransport" , allocatedTransportRouter) ; 
+app.use("/api/faq", FAQRouter);
 export { app };
