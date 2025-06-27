@@ -16,6 +16,11 @@ const schema = mongoose.Schema({
         ref: "Tour",
         required: true
     },
+    boardingPointId:{
+         type:mongoose.Schema.Types.ObjectId , 
+         ref:"BoardingPoint" , 
+         required:true
+    }
 })
 
 const AllcatedTransport = mongoose.model("AllcatedTransport", schema);
