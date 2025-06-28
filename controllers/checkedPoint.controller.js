@@ -22,7 +22,6 @@ export const getCheckedPoints = async (req, res) => {
     }
     console.log(email)
     const checkedPoints = await CheckedPoint.find({ email, tourId })
-    // console.log(checkedPoints)
     const checkedPointsId = checkedPoints.map((ch) =>
       ch.checkPointId.toString()
     );
@@ -46,7 +45,7 @@ export const getAllCheckedUserByCheckPointId = async (req, res) => {
     const id = req.query.id;
     console.log(id);
     if (!id) {
-     return  res.status(400).json("Please Provide the checkpoint ID ");
+      return res.status(400).json("Please Provide the checkpoint ID ");
     }
     const data = await CheckedPoint.aggregate([
       {
@@ -73,8 +72,8 @@ export const getAllCheckedUserByCheckPointId = async (req, res) => {
 
 export const deleteCheckedPoint = async (req, res) => {
   try {
-    const docId = req.query.id ;
-    
+    const docId = req.query.id;
+
     if (!docId) {
       return res.status(400).json("Please provide the document ID");
     }
@@ -105,4 +104,47 @@ export const resetCheckedPoints = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
+export const getAllCheckPointAndCheckedUser = async (req, res) => {
+  try {
+
+    const tourId = req.query.tourId;
+
+    if (!tourId) {
+      res.status(404).json({ message: "Tour id is required.." })
+    }
+
+    const checkPointData = await CheckPoint.aggregate([
+      {
+        $match: { tourId: new mongoose.Types.ObjectId(tourId) }
+      },
+      {
+        $lookup: {
+          from: "checkedpoints",
+          localField: "_id",
+          foreignField: "checkPointId",
+          as: "checkedUsers"
+        }
+      },
+      {
+        $lookup: {
+          from: "user_profiles",
+          localField: "checkedUsers.email",
+          foreignField: "email",
+          as: "UserDetails"
+        }
+      },
+      {
+        $project: {
+          "checkedUsers": 0
+        }
+      }
+    ])
+
+    console.log(checkPointData);
+    res.status(200).json(checkPointData)
+  } catch (error) {
+    res.status(500).json({ error: error.message || "Something went wrong while getting getAllCheckPointAndCheckedUser" })
+  }
+}
 

@@ -65,6 +65,7 @@ export const getByBusNumber = async (req , res )=> {
 
 export const deleteAllcatedTransport = async (req , res )=> {
     const id  = req.query.id;
+    console.log(id , "this is id ")
     try {
         await AllcatedTransport.findByIdAndDelete(id);
         res.status(200).end();

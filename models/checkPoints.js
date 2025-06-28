@@ -5,7 +5,7 @@ const checkPointSchema = new mongoose.Schema(
        type:mongoose.Schema.Types.ObjectId , 
        ref:"Tour",
        required:true 
-    } , 
+    }, 
     name: {
       type: String,
       required: true,
