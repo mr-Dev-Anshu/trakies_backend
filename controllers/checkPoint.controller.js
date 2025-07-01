@@ -74,9 +74,6 @@ export const deleteCheckPoint = async (req, res) => {
 export const getAllCheckPoints = async (req, res) => {
   try {
     const tourId = req.query.tourId;
-    // const checkPoints = await CheckPoint.find({ tourId });
-    // const totalCheckedCount = CheckedPoint.countDocuments({tourId}).
-
     const checkPoints = await CheckPoint.aggregate([
       {
         $match: { tourId: new mongoose.Types.ObjectId(tourId) },
@@ -84,8 +81,8 @@ export const getAllCheckPoints = async (req, res) => {
       {
         $lookup: {
           from: "checkedpoints",
-          localField: "_id", // Ensure `tourId` exists directly in CheckPoint schema
-          foreignField: "checkPointId", // Ensure `tourId` exists in checkedpoints as well
+          localField: "_id",
+          foreignField: "checkPointId",
           as: "allChecked"
         }
       },
@@ -96,8 +93,8 @@ export const getAllCheckPoints = async (req, res) => {
       },
 
       {
-        $project:{
-            allChecked:0
+        $project: {
+          allChecked: 0
         }
       }
     ]);
@@ -106,5 +103,28 @@ export const getAllCheckPoints = async (req, res) => {
     res
       .status(500)
       .json({ message: "Error fetching checkpoints", error: error.message });
+  }
+};
+
+
+export const getLatestUnCheckedPoint = async (req , res ) => {
+  try {
+
+    const {tourId , email } = req.query ; 
+     
+    if (!tourId || !email ) {
+       return res.status(404).json({message:"Please provide Tourid and email.."})
+    }
+    const checkPoints = await CheckPoint.find({ tourId, type: "Qr Code" , activated:true})
+      .sort({ createdAt: 1 });
+    console.log("Checkpoints:", checkPoints);
+    const checkedPoints = await CheckedPoint.find({ email });
+    const checkedPointIds = checkedPoints.map(cp => cp.checkPointId.toString());
+    const latestUnCheckedPoint = checkPoints.find(cp => !checkedPointIds.includes(cp._id.toString()));
+     return  res.status(200).json(latestUnCheckedPoint) ; 
+
+  } catch (error) {
+    console.error("Error in getLatestUnCheckedPoint:", error);
+    throw error;
   }
 };
