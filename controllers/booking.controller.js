@@ -82,13 +82,18 @@ export const getMyTour = async (req, res) => {
   try {
     const email = req.query.email;
 
-    if (!email){
-       return res.status(400).json("Please provide email")
+    if (!email) {
+      return res.status(400).json("Please provide email")
     }
 
     const bookingsWithTourDetails = await Booking.aggregate([
       {
         $match: { email },
+      },
+      {
+        $sort: {
+          createdAt: -1
+        }
       },
       {
         $lookup: {
@@ -149,7 +154,7 @@ export const getMyTour = async (req, res) => {
           as: "allocatedAccommodation"
         }
       },
-    
+
       {
         $lookup: {
           from: "allcatedtransports",
@@ -160,12 +165,12 @@ export const getMyTour = async (req, res) => {
       },
 
       {
-          $lookup:{
-             from:"members", 
-             localField:"email",
-             foreignField:"userEmail", 
-             as:"Members"
-          }
+        $lookup: {
+          from: "members",
+          localField: "email",
+          foreignField: "userEmail",
+          as: "Members"
+        }
       }
     ]);
 
