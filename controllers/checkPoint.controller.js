@@ -107,21 +107,21 @@ export const getAllCheckPoints = async (req, res) => {
 };
 
 
-export const getLatestUnCheckedPoint = async (req , res ) => {
+export const getLatestUnCheckedPoint = async (req, res) => {
   try {
 
-    const {tourId , email } = req.query ; 
-     
-    if (!tourId || !email ) {
-       return res.status(404).json({message:"Please provide Tourid and email.."})
+    const { tourId, email, type } = req.query;
+
+    if (!tourId || !email || !type) {
+      return res.status(404).json({ message: "Please provide Tourid and email , type .." })
     }
-    const checkPoints = await CheckPoint.find({ tourId, type: "Qr Code" , activated:true})
+    const checkPoints = await CheckPoint.find({ tourId, type, activated: true })
       .sort({ createdAt: 1 });
     console.log("Checkpoints:", checkPoints);
     const checkedPoints = await CheckedPoint.find({ email });
     const checkedPointIds = checkedPoints.map(cp => cp.checkPointId.toString());
     const latestUnCheckedPoint = checkPoints.find(cp => !checkedPointIds.includes(cp._id.toString()));
-     return  res.status(200).json(latestUnCheckedPoint) ; 
+    return res.status(200).json(latestUnCheckedPoint);
 
   } catch (error) {
     console.error("Error in getLatestUnCheckedPoint:", error);
