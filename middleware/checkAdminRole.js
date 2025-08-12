@@ -1,6 +1,7 @@
 // middleware/auth.js
 
 import { User } from "../models/Admin.js";
+import { Admin } from "../models/DashboardUsers.js";
 import { ApiError } from "../utils/ApiError.js";
 
 export const checkAdminRole = async (req, res, next) => {
@@ -31,9 +32,9 @@ export const checkSuperAdmin = async (req, res, next) => {
     if (!email) {
       throw new ApiError(400, "Email is required for authentication");
     }
-    const user = await User.findOne({ email });
+    const user = await Admin.findOne({ email });
     if (!user) {
-      throw new ApiError(404, "User not found");
+      throw new ApiError(404, "You should not be here");
     }
     if (user.role !== "superadmin") {
       throw new ApiError(403, "Access denied: Admins only");

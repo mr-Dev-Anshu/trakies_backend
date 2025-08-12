@@ -26,6 +26,33 @@ export const signup = async (req, res) => {
 };
 
 
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find(); 
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({
+      error: "Error fetching users",
+      details: error.message,
+    });
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  const id = req.query.id; 
+  try {
+    const deletedUser = await User.findByIdAndDelete(id);
+    if (!deletedUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    res.status(500).json({
+      error: "Error deleting user",
+      details: error.message,
+    });
+  }
+};
 
 export const signin = async (req, res) => {
   try {

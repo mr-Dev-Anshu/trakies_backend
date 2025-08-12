@@ -9,5 +9,9 @@ const schema = mongoose.Schema({
          type:String , 
          required:true
        },
+       role:{
+         type:String,
+         default:"superadmin"
+       }
 });
 export const Admin =  mongoose.model('Admin' , schema) ; 
