@@ -4,6 +4,17 @@ import CheckedPoint from "../models/checkedPoints.js";
 
 export const addCheckedPoint = async (req, res) => {
   try {
+    const { email, checkPointId } = req.body;
+
+    if (!email || !checkPointId) {
+      return res.status(404).json("Bad payload");
+    }
+
+    const isAllreadyCreated = await CheckedPoint.find({ email, checkPointId });
+
+    if (isAllreadyCreated) {
+      return res.status(400).json({ messaage: "Aready created" });
+    }
     const newCheckedPoint = new CheckedPoint(req.body);
     newCheckedPoint.save();
     return res.status(200).json(newCheckedPoint);
