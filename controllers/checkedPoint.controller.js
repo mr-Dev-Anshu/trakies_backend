@@ -10,7 +10,7 @@ export const addCheckedPoint = async (req, res) => {
       return res.status(404).json("Bad payload");
     }
 
-    const isAllreadyCreated = await CheckedPoint.find({ email, checkPointId });
+    const isAllreadyCreated = await CheckedPoint.findOne({ email, checkPointId });
 
     if (isAllreadyCreated) {
       return res.status(400).json({ messaage: "Aready created" });
