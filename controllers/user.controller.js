@@ -57,19 +57,43 @@ export const deleteUser = async (req, res) => {
 export const signin = async (req, res) => {
   try {
     const body = req.body;
-    if (body?.email === null || body?.password === null) {
-      throw new ApiError(400, "All Fields are  reqired for Signup");
+    if (!body?.email) {
+      throw new ApiError(400, "Email and password are required for signin");
     }
-    const { email } = req.body;
+    const { email } = body;
     const user = await User.findOne({ email });
     if (!user) {
-      throw new ApiError(400, "User not found ");
+      throw new ApiError(400, "User not found");
     }
-    res.status(200).json(user?.role);
+
+    const profile = await UserProfile.aggregate([
+      { $match: { email: email } } , 
+       {
+         $lookup:{
+            from:"members",
+            localField:"email",
+            foreignField:"userEmail",
+            as:"members"
+         }
+       }
+    ]);
+
+    const result = {
+      status: 200, 
+      message: "Signin successful",
+      user: {
+        email: user.email,
+        role: user.role,
+        profile: profile || null,
+      },
+      
+    };
+
+    res.status(200).json(result);
   } catch (error) {
     res
       .status(error?.status || 500)
-      .json(error.message || "Something went worong");
+      .json({ message: error?.message || "Something went wrong" });
   }
 };
 
