@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Post from "../models/Post.js";
+import { paginate } from "../utils/pagination.js";
 
 export const create = async (req, res) => {
   try {
@@ -50,7 +51,7 @@ export const deletePost = async (req, res) => {
 
 export const getPosts = async (req, res) => {
   try {
-    const posts = await Post.aggregate([
+    const pipeline = [
       {
         $lookup: {
           from: "images",
@@ -62,12 +63,15 @@ export const getPosts = async (req, res) => {
       {
         $sort: { createdAt: -1 },
       },
-    ]);
+    ];
 
-    return res.status(200).json({
-      message: "Posts retrieved successfully.",
-      data: posts,
-    });
+    const {results:Posts , pagination} = await paginate(Post , {
+       pipeline , 
+       query:req.query ,
+       default:10
+    })
+
+    return res.status(200).json({Posts , pagination});
   } catch (error) {
     return res.status(500).json(error.message);
   }

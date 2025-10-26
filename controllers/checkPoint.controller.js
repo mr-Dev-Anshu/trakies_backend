@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import CheckedPoint from "../models/checkedPoints.js";
 import CheckPoint from "../models/checkPoints.js";
+import { paginate } from "../utils/pagination.js";
 
 export const createCheckPoint = async (req, res) => {
   try {
@@ -74,7 +75,7 @@ export const deleteCheckPoint = async (req, res) => {
 export const getAllCheckPoints = async (req, res) => {
   try {
     const tourId = req.query.tourId;
-    const checkPoints = await CheckPoint.aggregate([
+    const pipeline = [
       {
         $match: { tourId: new mongoose.Types.ObjectId(tourId) },
       },
@@ -97,8 +98,19 @@ export const getAllCheckPoints = async (req, res) => {
           allChecked: 0
         }
       }
-    ]);
-    res.status(200).json(checkPoints);
+    ];
+
+    const { results: checkPoints, pagination } = await paginate(CheckPoint, {
+      pipeline,
+      query: req.query,
+      defaultLimit: 10
+    })
+
+    res.status(200).json({
+      checkPoints,
+      pagination
+    })
+
   } catch (error) {
     res
       .status(500)

@@ -1,5 +1,6 @@
 import Notification from "../models/Notification.js";
 import SeenNotification from "../models/SeenNotification.js";
+import { paginate } from "../utils/pagination.js";
 
 export const createNotification = async (req, res) => {
   try {
@@ -30,43 +31,16 @@ export const updateNotification = async (req, res) => {
   }
 };
 
-export const getNotificationsWithPagination = async (req, res) => {
-  try {
-    const { email, page = 1, limit = 10 } = req.query;
-
-    const skip = (page - 1) * limit;
-
-    const notifications = await Notification.find()
-      .skip(skip)
-      .limit(parseInt(limit));
-
-    const seenNotifications = await SeenNotification.find({ email }).select(
-      "notificationId"
-    );
-
-    const seenNotificationIds = seenNotifications.map((sn) =>
-      sn.notificationId.toString()
-    );
-
-    const result = notifications.map((notification) => {
-      return {
-        ...notification._doc,
-        seen: seenNotificationIds.includes(notification._id.toString()),
-      };
-    });
-    res.status(200).json(result);
-  } catch (error) {
-    res
-      .status(error?.status || 500)
-      .json(error?.message || "Something went wrong with getNotifications");
-  }
-};
 
 export const getNotifications = async (req, res) => {
   try {
     const { email } = req.query;
-
-    const notifications = await Notification.find();
+    const query = email ? { email } : {};
+    delete query.email ; 
+    const { results: notifications, pagination } = await paginate(Notification, {
+      query,
+      defaultLimit: 10,
+    });
 
     const seenNotifications = await SeenNotification.find({ email }).select(
       "notificationId"
@@ -76,17 +50,18 @@ export const getNotifications = async (req, res) => {
       sn.notificationId.toString()
     );
 
-    const result = notifications.map((notification) => {
-      return {
-        ...notification._doc,
-        seen: seenNotificationIds.includes(notification._id.toString()),
-      };
-    });
+    const result = notifications.map((notification) => ({
+      ...notification,
+      seen: seenNotificationIds.includes(notification._id.toString()),
+    }));
 
-    res.status(200).json(result);
+    res.status(200).json({
+      notifications: result,
+      pagination,
+    });
   } catch (error) {
-    res
-      .status(error?.status || 500)
-      .json(error?.message || "Something went wrong with getNotifications");
+    res.status(error?.status || 500).json({
+      message: error?.message || "Something went wrong with getNotifications",
+    });
   }
 };

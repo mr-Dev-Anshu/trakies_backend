@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Tour from "../models/Tour.js";
+import { paginate } from "../utils/pagination.js";
 
 // Create a new tour
 export const createTour = async (req, res) => {
@@ -12,11 +13,11 @@ export const createTour = async (req, res) => {
   }
 };
 
-// Get all tours
+// Get all tours with pagination
 export const getAllTours = async (req, res) => {
   try {
-    const limit = parseInt(req.query.limit) || 10000;
-    const tours = await Tour.aggregate([
+    // Define the aggregation pipeline
+    const pipeline = [
       {
         $lookup: {
           from: "images",
@@ -30,56 +31,64 @@ export const getAllTours = async (req, res) => {
           from: "checkinbagages",
           localField: "_id",
           foreignField: "tourId",
-          as: "checkinbagages"
-        }
+          as: "checkinbagages",
+        },
       },
       {
         $lookup: {
           from: "backpacks",
           localField: "_id",
           foreignField: "tourId",
-          as: "backpacks"
-        }
+          as: "backpacks",
+        },
       },
       {
         $lookup: {
           from: "includeds",
           localField: "_id",
           foreignField: "tourId",
-          as: "includeds"
-        }
+          as: "includeds",
+        },
       },
       {
         $lookup: {
           from: "notincludeds",
           localField: "_id",
           foreignField: "tourId",
-          as: "notincludeds"
-        }
+          as: "notincludeds",
+        },
       },
-
       {
         $lookup: {
           from: "bookings",
           localField: "_id",
           foreignField: "tourId",
-          as: "allBookings"
-        }
+          as: "allBookings",
+        },
       },
       {
         $addFields: {
-          bookedCount: { $size: "$allBookings" }
-        }
+          bookedCount: { $size: "$allBookings" },
+        },
       },
-
       {
         $project: {
           allBookings: 0, // Exclude the allBookings array
         },
       },
-      { $limit: limit },
-    ]);
-    res.status(200).json(tours);
+    ];
+
+    // Use the pagination utility
+    const { results: tours, pagination } = await paginate(Tour, {
+      pipeline,
+      query: req.query,
+      defaultLimit: 10,
+    });
+
+    res.status(200).json({
+      tours,
+      pagination,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
