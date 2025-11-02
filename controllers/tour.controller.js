@@ -16,8 +16,31 @@ export const createTour = async (req, res) => {
 // Get all tours with pagination
 export const getAllTours = async (req, res) => {
   try {
-    // Define the aggregation pipeline
+     let  {status } = req.query ; 
+
+     if (!status || !status ==="Active" || !status === "Inactive") {
+           return res.status(400).json({message:"Invalid status"})
+     }
+     if (status==="Inactive"){
+        status = false 
+     } else if (status==="Active") {
+       status = true 
+     } 
+    console.log(status)
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
     const pipeline = [
+      {
+        $match: {
+          booking_close: { $gt: today },
+        },
+      },
+      {
+        $match: {
+          status,
+        },
+      },
+
       {
         $lookup: {
           from: "images",
@@ -66,17 +89,30 @@ export const getAllTours = async (req, res) => {
           as: "allBookings",
         },
       },
+
+      // Step 3: Add bookedCount
       {
         $addFields: {
           bookedCount: { $size: "$allBookings" },
         },
       },
+
+      // Step 4: Remove allBookings from output
       {
         $project: {
-          allBookings: 0, // Exclude the allBookings array
+          allBookings: 0,
+        },
+      },
+
+      // Step 5: Sort by createdAt descending (newest first)
+      {
+        $sort: {
+          createdAt: -1,
         },
       },
     ];
+
+   delete req.query.status ; 
 
     // Use the pagination utility
     const { results: tours, pagination } = await paginate(Tour, {
@@ -117,32 +153,32 @@ export const getTourById = async (req, res) => {
           from: "checkinbagages",
           localField: "_id",
           foreignField: "tourId",
-          as: "checkinbagages"
-        }
+          as: "checkinbagages",
+        },
       },
       {
         $lookup: {
           from: "backpacks",
           localField: "_id",
           foreignField: "tourId",
-          as: "backpacks"
-        }
+          as: "backpacks",
+        },
       },
       {
         $lookup: {
           from: "includeds",
           localField: "_id",
           foreignField: "tourId",
-          as: "includeds"
-        }
+          as: "includeds",
+        },
       },
       {
         $lookup: {
           from: "notincludeds",
           localField: "_id",
           foreignField: "tourId",
-          as: "notincludeds"
-        }
+          as: "notincludeds",
+        },
       },
     ]);
     if (!tour) {
