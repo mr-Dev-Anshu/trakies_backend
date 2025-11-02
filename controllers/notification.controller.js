@@ -34,8 +34,8 @@ export const updateNotification = async (req, res) => {
 
 export const getNotifications = async (req, res) => {
   try {
-    const { email } = req.query;
-    const query = email ? { email } : {};
+    const { email , limit  } = req.query;
+    const query = email ? { email , limit  } : {};
     delete query.email ; 
     const { results: notifications, pagination } = await paginate(Notification, {
       query,
