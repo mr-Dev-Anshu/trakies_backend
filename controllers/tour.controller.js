@@ -12,10 +12,11 @@ export const createTour = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
-
 // Get all tours with pagination
 export const getAllTours = async (req, res) => {
   try {
+       console.log( await Tour.find())
+
      let  {status } = req.query ; 
 
      if (!status || !status ==="Active" || !status === "Inactive") {
@@ -37,10 +38,9 @@ export const getAllTours = async (req, res) => {
       },
       {
         $match: {
-          status,
+          status:true,
         },
       },
-
       {
         $lookup: {
           from: "images",
