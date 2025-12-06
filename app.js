@@ -52,6 +52,10 @@ app.use(cors({
   },
   credentials: true
 }));
+
+app.get("/" , (_, res )=> {
+      res.send("Hello jiii , Kaise ho . Chai laun")
+})
 app.use('/api/admin' , adminRouter)
 app.use("/api/users" , userRouter) ; 
 app.use("/api/tour", TourRouter);
