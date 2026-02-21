@@ -171,7 +171,15 @@ export const getMyTour = async (req, res) => {
           foreignField: "userEmail",
           as: "Members"
         }
-      }
+      }, 
+      {
+        $lookup: {
+          from: "checkpoint",
+          localField: "tourId",
+          foreignField: "tourId",
+          as: "checkPoints"
+        }
+      }, 
     ]);
 
     res.status(200).json({ data: bookingsWithTourDetails });
